@@ -46,6 +46,7 @@ manejador_paquetes=$(obtener_distro)
 declare -A dependencias=(
 	["ranger"]="sudo $manejador_paquetes install ranger -y"
 	["nvim"]="sudo $manejador_paquetes install neovim -y"
+	["jq"]="sudo $manejador_paquetes install jq -y"
 )
 
 for dependencia in "${!dependencias[@]}"; do
@@ -69,6 +70,9 @@ declare -A archivos_a_descargar=(
 	["NeoComposer.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/NeoComposer.py"
 	["requirements.txt"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/requirements.txt"
 	["env.example"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/env.example"
+	["agenda.json"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/agenda.json"
+	["agenda.sh"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/agenda.sh"
+	["signature.html"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/signature.html"
 )
 
 # Descargando archivos | Downloading files
@@ -96,6 +100,9 @@ pip install -r requirements.txt
 echo "Moviendo archivos a directorio..."
 cp NeoComposer.py "$install_dir"
 cp env.example "$install_dir/.env"
+cp agenda.sh "$install_dir"
+cp agenda.json "$install_dir"
+cp signature.html "$install_dir"
 
 # Crear acceso directo | Create shortcut
 echo "Creando acceso directo..."

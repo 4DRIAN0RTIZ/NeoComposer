@@ -18,20 +18,25 @@ Neocomposer utiliza Neovim como editor de texto, por lo que puedes utilizar todo
 
 Para enviar el correo con una firma, crea un archivo llamado `signature.html` en el directorio `~/.config/NeoComposer/` y escribe la firma en HTML. Por ejemplo:
 ```html
-<table cellspacing="0" cellpadding="0">
-        <tr>
-            <th style="border-right: 1px solid #000; padding-right: 10px;">Nombre:</th>
-            <th style="padding-left: 10px;">Correcaminos</th>
-        </tr>
-        <tr>
-            <th style="border-right: 1px solid #000; padding-right: 10px;">Cargo:</th>
-            <th style="padding-left: 10px;">Desarrollador</th>
-        </tr>
-        <tr>
-            <th style="border-right: 1px solid #000; padding-right: 10px;">Compañía:</th>
-            <th style="padding-left: 10px;">Acme Corporation</th>
-        </tr>
-    </table>
+<table style="width: 100%; font-family: Arial, sans-serif; font-size: 14px;">
+  <tr>
+    <td style="text-align: center;">
+      <img src="https://neandertech.netlify.app/img/logo.png" alt="Foto" style="max-width: 100px;">
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; font-weight: bold; color: #333;">
+      La Cueva del NeanderTech
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">
+      Enviado desde <a href="https://github.com/4DRIAN0RTIZ/NeoComposer"
+        style="text-decoration: none; color: #007bff;">Neocomposer</a>
+      Visto en <a href="https://neandertech.netlify.app/blog/envia-correos-desde-la-terminal-neocomposer-esta-aqui"</a>
+    </td>
+  </tr>
+</table>
 ```
 
 En caso de que no se cuente con el archivo `signature.html`, se enviará el correo sin firma.
@@ -48,6 +53,24 @@ SENDER_NAME=
 ```
 
 Asegúrate de configurar correctamente las variables de entorno antes de utilizar Neocomposer.
+
+## Agenda
+
+La agenda de contactos es un archivo JSON que tiene la siguiente estructura:
+```json
+{
+    "contactos": [
+        {
+            "nombre": "Nombre del contacto",
+            "correo": "Correo electrónico del contacto"
+        }
+    ]
+}
+```
+
+Para acceder a la agenda de contactos, ejecuta `neocomposer -a` desde la terminal.
+
+Ten en cuenta que la agenda de contactos es opcional, por lo que puedes enviar correos sin ella. Te permite agregar, modificar, eliminar y mostrar contactos.
 
 ## Contribuciones
 

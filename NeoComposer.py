@@ -17,6 +17,8 @@ Date: 10-08-2023
 License: Free Use
 """
 
+import json
+import sys
 import time
 import os
 from dotenv import load_dotenv
@@ -25,6 +27,23 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+
+# Obtener el nombre de usuario actual
+username = os.getlogin()
+# Ruta del archivo "agenda.json"
+agenda_path = f"/home/{username}/.config/neocomposer/agenda.json"
+# Construir la ruta del archivo "agenda.sh"
+script_path = f"/home/{username}/.config/neocomposer/agenda.sh"
+# Verifica si se ha pasado algún argumento
+if "-a" in sys.argv:
+    try:
+        # Ejecutar el script "agenda.sh" si se proporciona la flag "-a"
+        os.system(script_path)
+        sys.exit(1)
+    except Exception as e:
+        print("Error al ejecutar agenda.sh:", str(e))
+        sys.exit(1)
+
 
 def print_loading_animation(seconds,char_list):
     for _ in range(int(seconds + 10)):
@@ -47,10 +66,13 @@ def open_neovim():
 
 
 # Carga la configuración desde el archivo .env
-username = os.getlogin()
 env_path = os.path.expanduser(
     f"~{username}/.config/neocomposer/.env")
 load_dotenv(env_path)
+
+# Carga la agenda de contactos desde el archivo "agenda.json"
+with open(agenda_path, "r") as agenda_file:
+    agenda = json.load(agenda_file)
 
 # Obtiene los valores de configuración del archivo .env
 smtp_server = os.getenv('SMTP_SERVER')
@@ -59,7 +81,38 @@ sender_email = os.getenv('SENDER_EMAIL')
 sender_password = os.getenv('SENDER_PASSWORD')
 sender_name = os.getenv('SENDER_NAME')
 
-destinatario = input("Correo destinatario: ")
+# Limpia la pantalla
+os.system("clear")
+
+print("Seleccione una opción:")
+print("1. Enviar a un destinatario de uso único")
+print("2. Elegir un destinatario de la agenda")
+
+opcion = input("Opción: ")
+
+if opcion == "1":
+    # El usuario quiere ingresar un destinatario de uso único
+    destinatario = input("Correo destinatario: ")
+elif opcion == "2":
+    # El usuario quiere seleccionar un destinatario de la agenda
+    print("Contactos en la agenda:")
+    for i, contacto in enumerate(agenda["contactos"], 1):
+        print(f"{i}. {contacto['nombre']} ({contacto['correo']})")
+
+    while True:
+        try:
+            seleccion = int(input("Número de contacto: "))
+            if 1 <= seleccion <= len(agenda["contactos"]):
+                destinatario = agenda["contactos"][seleccion - 1]["correo"]
+                break
+            else:
+                print("Número de contacto no válido. Por favor, elige un número válido.")
+        except ValueError:
+            print("Debes ingresar un número válido.")
+else:
+    print("Opción no válida. Saliendo del programa.")
+    sys.exit(1)
+
 asunto = input("Asunto: ")
 
 # Verificar la existencia de signature.html
