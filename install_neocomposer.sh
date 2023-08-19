@@ -90,7 +90,7 @@ chmod +x NeoComposer.py
 
 # Instalando dependencias de Python | Installing Python dependencies
 echo "Instalando dependencias de Python..."
-pip install -r requirements.txt && rm requirements.txt
+pip install -r requirements.txt
 
 # Moviendo archivos a directorio | Moving files to directory
 echo "Moviendo archivos a directorio..."
