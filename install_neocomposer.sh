@@ -70,7 +70,7 @@ mkdir -p $install_dir
 declare -A archivos_a_descargar=(
 	["main.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/main.py"
 	["email_client.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/email_client.py"
-	["email_functions.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/email_functions"
+	["email_functions.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/email_functions.py"
 	["requirements.txt"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/requirements.txt"
 	["env.example"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/env.example"
 	["agenda.json"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/agenda.json"
