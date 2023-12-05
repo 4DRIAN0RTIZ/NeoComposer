@@ -93,7 +93,7 @@ done
 
 # Permitiendo ejecución de NeoComposer.py | Allowing execution of NeoComposer.py
 echo "Permitiendo ejecución de NeoComposer.py..."
-chmod +x NeoComposer.py
+chmod +x main.py
 
 # Instalando dependencias de Python | Installing Python dependencies
 echo "Instalando dependencias de Python..."
