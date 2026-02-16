@@ -1,142 +1,250 @@
-import json
-import sys
 import os
-from dotenv import load_dotenv
-import traceback
-from email_functions import smtp_login, print_loading_animation, open_explorer, open_neovim
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
+import sys
+from typing import Optional, List
+from config_manager import ConfigManager
+from agenda_manager import AgendaManager
+from mail_composer import MailComposer
+from mail_sender import MailSender
 
 
 class EmailClient:
-    def __init__(self):
+    """Orquestador principal con modos interactivo y programático"""
+
+    def __init__(
+        self,
+        recipient: Optional[str] = None,
+        subject: Optional[str] = None,
+        body: Optional[str] = None,
+        attachments: Optional[List[str]] = None,
+        use_agenda: Optional[int] = None,
+    ):
+        """
+        Args:
+            recipient: Email destinatario (modo programático)
+            subject: Asunto (modo programático)
+            body: Cuerpo del mensaje (modo programático)
+            attachments: Lista de archivos a adjuntar (modo programático)
+            use_agenda: Índice del contacto en agenda (1-indexed, modo programático)
+        """
         self.username = os.getlogin()
-        self.agenda_path = f"/home/{self.username}/.config/neocomposer/agenda.json"
-        self.script_path = f"/home/{self.username}/.config/neocomposer/agenda.sh"
+        self.config_path = os.path.expanduser(
+            f"~{self.username}/.config/neocomposer/.env"
+        )
+        self.agenda_path = os.path.expanduser(
+            f"~{self.username}/.config/neocomposer/agenda.json"
+        )
 
-    def load_configuration(self):
-        # Carga la configuración desde el archivo .env
-        env_path = os.path.expanduser(f"~{self.username}/.config/neocomposer/.env")
-        load_dotenv(env_path)
+        # Modo programático
+        self.recipient = recipient
+        self.subject = subject
+        self.body = body
+        self.attachments = attachments or []
+        self.use_agenda = use_agenda
+        self._is_programmatic = any([recipient, subject, body, attachments, use_agenda])
 
-    def load_agenda(self):
-        # Carga la agenda de contactos desde el archivo "agenda.json"
-        with open(self.agenda_path, "r") as agenda_file:
-            agenda = json.load(agenda_file)
-        return agenda
+    def _get_recipient_interactive(self) -> str:
+        """Versión interactiva de obtención de destinatario"""
+        print("Seleccione una opción:")
+        print("1. Enviar a un destinatario de uso único")
+        print("2. Elegir un destinatario de la agenda")
 
-    def smtp_login(self, server, port, sender_email, sender_password):
-        return smtp_login(server, port, sender_email, sender_password)
+        opcion = input("Opción: ").strip()
 
-    def print_loading_animation(self, seconds, char_list):
-        print_loading_animation(seconds, char_list)
+        if opcion == "1":
+            return input("Correo destinatario: ").strip()
 
-    def open_explorer(self):
-        return open_explorer()
+        if opcion == "2":
+            agenda = AgendaManager(self.agenda_path)
+            agenda.display_contacts()
 
-    def open_neovim(self):
-        return open_neovim()
-
-    def run(self):
-        # Implementa el flujo principal de la aplicación aquí
-        try:
-            self.load_configuration()
-            agenda = self.load_agenda()
-
-            smtp_server = os.getenv('SMTP_SERVER')
-            smtp_port = int(os.getenv('SMTP_PORT'))
-            sender_email = os.getenv('SENDER_EMAIL')
-            sender_password = os.getenv('SENDER_PASSWORD')
-            sender_name = os.getenv('SENDER_NAME')
-
-            os.system("clear")
-
-            print("Seleccione una opción:")
-            print("1. Enviar a un destinatario de uso único")
-            print("2. Elegir un destinatario de la agenda")
-
-            opcion = input("Opción: ")
-
-            if opcion == "1":
-                destinatario = input("Correo destinatario: ")
-            elif opcion == "2":
-                print("Contactos en la agenda:")
-                for i, contacto in enumerate(agenda["contactos"], 1):
-                    print(f"{i}. {contacto['nombre']} ({contacto['correo']})")
-
-                while True:
-                    try:
-                        seleccion = int(input("Número de contacto: "))
-                        if 1 <= seleccion <= len(agenda["contactos"]):
-                            destinatario = agenda["contactos"][seleccion - 1]["correo"]
-                            break
-                        else:
-                            print("Número de contacto no válido. Por favor, elige un número válido.")
-                    except ValueError:
-                        print("Debes ingresar un número válido.")
-            else:
-                print("Opción no válida. Saliendo del programa.")
-                sys.exit(1)
-
-            asunto = input("Asunto: ")
-
-            if os.path.exists('signature.html'):
-                with open('signature.html', 'r') as f:
-                    firma = f.read()
-            else:
-                firma = ''
-
-            cuerpo = self.open_neovim()
-            cuerpo_html = cuerpo.replace('\n', '<br>')
-
-            adjuntar = input("¿Deseas adjuntar un archivo? (S/N): ")
-
-            smtp = self.smtp_login(smtp_server, smtp_port, sender_email, sender_password)
-            if smtp:
+            while True:
                 try:
-                    mensaje = MIMEMultipart()
-                    cuerpo_html += firma
-                    parte_texto = MIMEText(cuerpo_html, "html")
-                    mensaje.attach(parte_texto)
+                    seleccion = int(input("Número de contacto: "))
+                    contact = agenda.get_contact_by_index(seleccion)
+                    return contact["correo"]
+                except (ValueError, KeyError) as e:
+                    print(f"Selección inválida: {e}")
 
-                    while adjuntar.lower() == "s":
-                        archivo = self.open_explorer()
-                        if archivo:
-                            with open(archivo, "rb") as attachment:
-                                adjunto = MIMEBase("application", "octet-stream")
-                                adjunto.set_payload(attachment.read())
-                                encoders.encode_base64(adjunto)
-                                adjunto.add_header(
-                                    "Content-Disposition", f"attachment; filename= {os.path.basename(archivo)}"
-                                )
-                                mensaje.attach(adjunto)
+        print("Opción no válida.")
+        sys.exit(1)
 
-                        adjuntar = input("¿Deseas adjuntar otro archivo? (S/N): ")
+    def _get_attachments_interactive(self) -> list[str]:
+        """Versión interactiva de obtención de adjuntos"""
+        attachments = []
 
-                    mensaje["Subject"] = asunto
-                    mensaje["From"] = f"{sender_name} <{sender_email}>"
-                    mensaje["To"] = destinatario
+        while True:
+            adjuntar = input("¿Deseas adjuntar un archivo? (S/N): ").strip().lower()
+            if adjuntar != "s":
+                break
 
-                    self.print_loading_animation(1, ['|', '/', '-', '\\'])
-                    smtp.sendmail(sender_email, destinatario, mensaje.as_string())
+            try:
+                archivo = self._select_file_with_yazi()
+                if archivo:
+                    attachments.append(archivo)
+            except Exception as e:
+                print(f"Error seleccionando archivo: {e}")
 
-                    if smtp.noop()[0] == 250:
-                        print("\rCorreo enviado exitosamente")
-                    else:
-                        print("\rHa ocurrido un error")
-                except Exception as e:
-                    print(f"Error al enviar el correo: {str(e)}")
-                    traceback.print_exc()
-                finally:
-                    smtp.quit()
+        return attachments
+
+    def _select_file_with_yazi(self) -> str:
+        """Usa yazi para seleccionar archivo"""
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as f:
+            temp_path = f.name
+
+        try:
+            os.system(f"yazi --chooser-file={temp_path}")
+            with open(temp_path, "r") as f:
+                return f.read().strip()
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+
+    def _compose_body_with_neovim(self) -> str:
+        """Crea cuerpo del email usando neovim"""
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(mode="w+", suffix=".txt", delete=False) as f:
+            temp_path = f.name
+
+        try:
+            os.system(f"nvim {temp_path}")
+            with open(temp_path, "r", encoding="utf-8") as f:
+                return f.read()
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+
+    def send_email(
+        self,
+        recipient: str,
+        subject: str,
+        body: str,
+        attachments: Optional[List[str]] = None,
+    ) -> bool:
+        """
+        Envío programático de email
+
+        Args:
+            recipient: Email destinatario
+            subject: Asunto del mensaje
+            body: Cuerpo del mensaje (puede ser plaintext)
+            attachments: Lista opcional de rutas de archivos
+
+        Returns:
+            bool: True si el envío fue exitoso
+
+        Raises:
+            Exception: Si hay error en configuración, composición o envío
+        """
+        # 1. Cargar configuración
+        config_manager = ConfigManager()
+        config = config_manager.load()
+
+        # 2. Componer mensaje
+        composer = MailComposer()
+        mensaje = composer.compose(
+            subject=subject,
+            sender_name=config["sender_name"],
+            sender_email=config["sender_email"],
+            recipient=recipient,
+            body_html=body.replace("\n", "<br>") if body else "",
+        )
+
+        # 3. Adjuntar archivos
+        if attachments:
+            for archivo in attachments:
+                if os.path.exists(archivo):
+                    composer.add_attachment(mensaje, archivo)
+                else:
+                    print(f"Advertencia: Archivo no encontrado {archivo}")
+
+        # 4. Enviar
+        sender = MailSender(
+            smtp_server=config["smtp_server"],
+            smtp_port=config["smtp_port"],
+            sender_email=config["sender_email"],
+            sender_password=config["sender_password"],
+        )
+
+        return sender.send(mensaje, recipient)
+
+    def run_interactive(self) -> None:
+        """Ejecuta el flujo interactivo"""
+        os.system("clear")
+
+        # 1. Cargar configuración
+        config_manager = ConfigManager()
+        config = config_manager.load()
+
+        # 2. Recopilar datos interactivamente
+        destinatario = self._get_recipient_interactive()
+        asunto = input("Asunto: ").strip()
+        cuerpo = self._compose_body_with_neovim()
+        adjuntos = self._get_attachments_interactive()
+
+        # 3. Componer y enviar
+        composer = MailComposer()
+        mensaje = composer.compose(
+            subject=asunto,
+            sender_name=config["sender_name"],
+            sender_email=config["sender_email"],
+            recipient=destinatario,
+            body_html=cuerpo.replace("\n", "<br>"),
+        )
+
+        for archivo in adjuntos:
+            if os.path.exists(archivo):
+                composer.add_attachment(mensaje, archivo)
+
+        sender = MailSender(
+            smtp_server=config["smtp_server"],
+            smtp_port=config["smtp_port"],
+            sender_email=config["sender_email"],
+            sender_password=config["sender_password"],
+        )
+
+        sender.print_loading_animation(1, ["|", "/", "-", "\\"])
+        success = sender.send(mensaje, destinatario)
+
+        if success:
+            print("✓ Correo enviado exitosamente")
+        else:
+            print("✗ Ha ocurrido un error")
+
+    def run(self) -> None:
+        """Detecta modo y ejecuta el flujo correspondiente"""
+        try:
+            if self._is_programmatic:
+                # Modo programático
+                recipient = self.recipient
+
+                if self.use_agenda:
+                    agenda = AgendaManager(self.agenda_path)
+                    contact = agenda.get_contact_by_index(self.use_agenda)
+                    recipient = contact["correo"]
+
+                success = self.send_email(
+                    recipient=recipient,
+                    subject=self.subject or "(Sin asunto)",
+                    body=self.body or "",
+                    attachments=self.attachments,
+                )
+
+                if success:
+                    print("✓ Correo enviado exitosamente (modo programático)")
+                else:
+                    print("✗ Error en envío programático")
+                    sys.exit(1)
+
             else:
-                print("No se pudo establecer una conexión SMTP válida.")
+                # Modo interactivo
+                self.run_interactive()
 
-            os.remove("emailtemp.txt")
-            if os.path.exists("temp.txt"):
-                os.remove("temp.txt")
         except Exception as e:
-            print(f"Error en la aplicación: {str(e)}")
+            print(f"\nError crítico: {str(e)}")
+            import traceback
+
             traceback.print_exc()
+            sys.exit(1)

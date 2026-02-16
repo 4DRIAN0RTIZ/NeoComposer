@@ -3,22 +3,35 @@
 # Instalador de NeoComposer | NeoComposer installer
 # Creado por 4DRIAN0RTIZ | Created by 4DRIAN0RTIZ
 
-# Colores ANSI
 red="\033[1;31m"
 green="\033[1;32m"
 yellow="\033[1;33m"
-blue="\033[1;34m"
 reset="\033[0m"
+
+GITHUB_RAW="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main"
 
 function ctrl_c() {
 	echo ""
-	echo "** Matando proceso **"
+	echo "** Instalación cancelada **"
 	echo ""
 	exit 1
 }
 trap ctrl_c INT
 
-# Comprobar distro | Check distro
+# Detect local vs remote execution (curl | bash sets BASH_SOURCE[0] to empty)
+if [[ -n "${BASH_SOURCE[0]}" && "${BASH_SOURCE[0]}" != "bash" ]]; then
+	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+	if [[ -f "$SCRIPT_DIR/main.py" ]]; then
+		MODE="local"
+	else
+		MODE="remote"
+	fi
+else
+	MODE="remote"
+	SCRIPT_DIR=""
+fi
+
+echo -e "${yellow}Modo: $MODE${reset}"
 
 function obtener_distro() {
 	distro=$(grep -m1 "^ID=" /etc/os-release | awk -F'=' '{ print $2 }' | tr -d '"')
@@ -30,7 +43,7 @@ function obtener_distro() {
 	"fedora" | "centos" | "rhel")
 		echo "dnf"
 		;;
-	"arch")
+	"arch" | "manjaro")
 		echo "pacman"
 		;;
 	*)
@@ -42,76 +55,103 @@ function obtener_distro() {
 
 manejador_paquetes=$(obtener_distro)
 
-# Verificación de dependencias
+function instalar_paquete() {
+	local pkg=$1
+	echo -e "${yellow}Instalando $pkg...${reset}"
+	case "$manejador_paquetes" in
+	"pacman")
+		sudo pacman -S "$pkg" --noconfirm
+		;;
+	*)
+		sudo "$manejador_paquetes" install "$pkg" -y
+		;;
+	esac
+}
+
 declare -A dependencias=(
-	["ranger"]="sudo $manejador_paquetes install ranger -y"
-	["nvim"]="sudo $manejador_paquetes install neovim -y"
-	["jq"]="sudo $manejador_paquetes install jq -y"
-	["python3"]="sudo $manejador_paquetes install python-is-python3 -y"
+	["yazi"]="yazi"
+	["nvim"]="neovim"
+	["jq"]="jq"
+	["python3"]="python3"
+	["curl"]="curl"
 )
 
-for dependencia in "${!dependencias[@]}"; do
-	if ! command -v "$dependencia" &>/dev/null; then
-		echo "El comando '$dependencia' no está instalado"
-		echo "Instalando '$dependencia'..."
-		eval "${dependencias[$dependencia]}"
+for cmd in "${!dependencias[@]}"; do
+	if ! command -v "$cmd" &>/dev/null; then
+		echo -e "${yellow}$cmd no encontrado. Instalando...${reset}"
+		instalar_paquete "${dependencias[$cmd]}"
 		if [ $? -ne 0 ]; then
-			echo "Error al instalar '$dependencia'"
+			echo -e "${red}Error al instalar $cmd${reset}"
 			exit 1
 		fi
 	fi
 done
 
-# Directorio de instalación | Installation directory
 install_dir="$HOME/.config/neocomposer"
-mkdir -p $install_dir
+mkdir -p "$install_dir"
 
-# Archivos necesarios | Necesary files
-declare -A archivos_a_descargar=(
-	["main.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/main.py"
-	["email_client.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/email_client.py"
-	["email_functions.py"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/email_functions.py"
-	["requirements.txt"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/requirements.txt"
-	["env.example"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/env.example"
-	["agenda.json"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/agenda.json"
-	["agenda.sh"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/agenda.sh"
-	["signature.html"]="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/signature.html"
+archivos=(
+	"main.py"
+	"email_client.py"
+	"agenda_manager.py"
+	"config_manager.py"
+	"mail_composer.py"
+	"mail_sender.py"
+	"requirements.txt"
+	"agenda.sh"
+	"agenda.json"
+	"signature.html"
 )
 
-# Descargando archivos | Downloading files
-
-for archivo in "${!archivos_a_descargar[@]}"; do
-	if [ ! -f "$archivo" ]; then
-		echo "Descargando $archivo..."
-		wget -q "${archivos_a_descargar[$archivo]}"
+function obtener_archivo() {
+	local archivo=$1
+	if [[ "$MODE" == "local" ]]; then
+		cp "$SCRIPT_DIR/$archivo" "$install_dir/"
+	else
+		echo -e "${yellow}Descargando $archivo...${reset}"
+		curl -fsSL "$GITHUB_RAW/$archivo" -o "$install_dir/$archivo"
 		if [ $? -ne 0 ]; then
-			echo "Error al descargar $archivo"
+			echo -e "${red}Error al descargar $archivo${reset}"
 			exit 1
 		fi
 	fi
+}
+
+echo "Instalando archivos en $install_dir..."
+for archivo in "${archivos[@]}"; do
+	obtener_archivo "$archivo"
 done
 
-# Permitiendo ejecución de NeoComposer.py | Allowing execution of NeoComposer.py
-echo "Permitiendo ejecución de NeoComposer.py..."
-chmod +x main.py
+if [ ! -f "$install_dir/.env" ]; then
+	if [[ "$MODE" == "local" ]]; then
+		cp "$SCRIPT_DIR/env.example" "$install_dir/.env"
+	else
+		echo -e "${yellow}Descargando env.example...${reset}"
+		curl -fsSL "$GITHUB_RAW/env.example" -o "$install_dir/.env"
+	fi
+fi
 
-# Instalando dependencias de Python | Installing Python dependencies
-echo "Instalando dependencias de Python..."
-pip install -r requirements.txt
+echo "Creando entorno virtual..."
+python3 -m venv "$install_dir/venv"
+if [ $? -ne 0 ]; then
+	echo -e "${red}Error al crear entorno virtual${reset}"
+	exit 1
+fi
 
-# Moviendo archivos a directorio | Moving files to directory
-echo "Moviendo archivos a directorio..."
-cp main.py "$install_dir"
-cp email_client.py "$install_dir"
-cp email_functions.py "$install_dir"
-cp env.example "$install_dir/.env"
-cp agenda.sh "$install_dir"
-cp agenda.json "$install_dir"
-cp signature.html "$install_dir"
+echo "Instalando dependencias Python..."
+"$install_dir/venv/bin/pip" install -r "$install_dir/requirements.txt" -q
+if [ $? -ne 0 ]; then
+	echo -e "${red}Error al instalar dependencias Python${reset}"
+	exit 1
+fi
 
-# Crear acceso directo | Create shortcut
-echo "Creando acceso directo..."
-ln -s "$install_dir/main.py" "$HOME/.local/bin/neocomposer"
+mkdir -p "$HOME/.local/bin"
+rm -f "$HOME/.local/bin/neocomposer"
+cat > "$HOME/.local/bin/neocomposer" << EOF
+#!/bin/bash
+exec "\$HOME/.config/neocomposer/venv/bin/python" "\$HOME/.config/neocomposer/main.py" "\$@"
+EOF
+chmod +x "$HOME/.local/bin/neocomposer"
 
-echo -e "${green}Instalación completada | Ejecuta neocomposer para iniciar${reset}"
-echo -e "${red}No olvides configurar el archivo $install_dir/.env${reset}"
+echo -e "${green}Instalación completada. Ejecuta: neocomposer${reset}"
+echo -e "${red}Configura tus credenciales en: $install_dir/.env${reset}"

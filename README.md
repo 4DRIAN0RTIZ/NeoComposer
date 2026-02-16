@@ -1,77 +1,103 @@
 # NeoComposer
 
-Envía un correo electrónico desde la terminal utilizando Neovim como editor de texto.
+> Email desde la terminal, como debe ser.
 
-## Instalación
+Cliente de correo minimalista para la terminal. Escribe con Neovim, adjunta con Yazi, automatiza con CLI.
 
-Otorga permisos de ejecución a `install_neocomposer` de la siguiente manera:
+---
+
+## Instalación rápida
 
 ```bash
-sudo chmod +x install_neocomposer
+git clone https://github.com/4DRIAN0RTIZ/NeoComposer.git
+cd NeoComposer
+sudo chmod +x install_neocomposer.sh
+./install_neocomposer.sh
 ```
+
+Edita `~/.config/neocomposer/.env` con tus credenciales SMTP.
+
+---
 
 ## Uso
 
-Una vez instalado, ejecuta `neocomposer` desde la terminal para enviar un correo electrónico.
+### Modo interactivo (por defecto)
 
-Neocomposer utiliza Neovim como editor de texto, por lo que puedes utilizar todos los comandos de Neovim para escribir el correo electrónico. De manera automática se abrirá un archivo temporal en Neovim, el cual se borrará una vez que se haya enviado el correo electrónico.
-
-Para enviar el correo con una firma, crea un archivo llamado `signature.html` en el directorio `~/.config/NeoComposer/` y escribe la firma en HTML. Por ejemplo:
-```html
-<table style="width: 100%; font-family: Arial, sans-serif; font-size: 14px;">
-  <tr>
-    <td style="text-align: center;">
-      <img src="https://neandertech.netlify.app/img/logo.png" alt="Foto" style="max-width: 100px;">
-    </td>
-  </tr>
-  <tr>
-    <td style="text-align: center; font-weight: bold; color: #333;">
-      La Cueva del NeanderTech
-    </td>
-  </tr>
-  <tr>
-    <td style="text-align: center;">
-      Enviado desde <a href="https://github.com/4DRIAN0RTIZ/NeoComposer"
-        style="text-decoration: none; color: #007bff;">Neocomposer</a>
-      Visto en <a href="https://neandertech.netlify.app/blog/envia-correos-desde-la-terminal-neocomposer-esta-aqui"</a>
-    </td>
-  </tr>
-</table>
-```
-
-En caso de que no se cuente con el archivo `signature.html`, se enviará el correo sin firma.
-
-## Variables de entorno
-
-El archivo `.env` tiene la siguiente estructura:
 ```bash
-SMTP_SERVER=
-SMTP_PORT=
-SENDER_EMAIL=
-SENDER_PASSWORD=
-SENDER_NAME=
+neocomposer
 ```
 
-Asegúrate de configurar correctamente las variables de entorno antes de utilizar Neocomposer.
+Flujo guiado paso a paso: destinatario, asunto, Neovim, adjuntos opcionales.
 
-## Agenda
+### Modo programático (para scripts)
 
-La agenda de contactos es un archivo JSON que tiene la siguiente estructura:
-```json
-{
-    "contactos": [
-        {
-            "nombre": "Nombre del contacto",
-            "correo": "Correo electrónico del contacto"
-        }
-    ]
-}
+```bash
+# Email simple
+neocomposer -r "admin@dominio.com" -s "Alerta" -b "Disco al 90%"
+
+# Con adjuntos
+neocomposer \
+  -r "equipo@dominio.com" \
+  -s "Reporte" \
+  -a /var/log/syslog /tmp/report.pdf
+
+# Usando contacto de agenda
+neocomposer -i 1 -s "Notificación" -b "Mensaje automático"
+
+# Listar contactos
+neocomposer -l
 ```
 
-Para acceder a la agenda de contactos, ejecuta `neocomposer -a` desde la terminal.
+Ver `--help` para todas las opciones.
 
-Ten en cuenta que la agenda de contactos es opcional, por lo que puedes enviar correos sin ella. Te permite agregar, modificar, eliminar y mostrar contactos.
+---
 
-## Contribuciones
+## Características
 
-El proyecto está abierto a contribuciones, así que siéntete libre de hacer un fork y enviar un pull request.
+- ✏️ **Neovim** como editor nativo
+- 📎 **Yazi** para adjuntar archivos
+- 📋 **Agenda de contactos** JSON
+- ✍️ **Firma HTML** personalizable
+- 🔐 **SMTP + STARTTLS**
+- ⚡ **Modo programático** con CLI
+- 🚀 **Instalador multi-distro**
+
+---
+
+## Documentación completa
+
+[neocomposer.cuevaneander.tech](https://neocomposer.cuevaneander.tech)
+
+---
+
+## Configuración SMTP (Gmail)
+
+```env
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+SENDER_EMAIL=tucuenta@gmail.com
+SENDER_PASSWORD=tu_app_password  # 16 dígitos
+SENDER_NAME=Tu Nombre
+```
+
+Genera la contraseña en: Google Account → Seguridad → Contraseñas de aplicación.
+
+---
+
+## Contribuir
+
+Abierto a contribuciones. Fork, mejora y abre PR。
+
+```bash
+git checkout -b feat/mi-feature
+git commit -m "feat: descripción corta"
+git push origin feat/mi-feature
+```
+
+---
+
+## Autor
+
+Creado por [4DRIAN0RTIZ](https://github.com/4DRIAN0RTIZ) desde [La Cueva del NeanderTech](https://cuevaneander.tech)。
+
+Hecho desde la terminal, para la terminal.
