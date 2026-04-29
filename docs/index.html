@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title data-i18n="page-title">NeoComposer — Email desde la terminal</title>
+	<meta name="description" data-i18n="page-description"
+		content="Envía correos desde tu terminal usando Neovim como editor. Soporte CLI programático, adjuntos via Yazi, agenda de contactos, firma HTML y SMTP." />
+
+	<!-- Open Graph / Social Media -->
+	<meta property="og:title" content="NeoComposer — Email desde la terminal" />
+	<meta property="og:description"
+		content="Cliente de correo minimalista para la terminal con soporte CLI programático. Escribe con Neovim, adjunta con Yazi, automatiza con scripts." />
+	<meta property="og:image" content="https://neocomposer.cuevaneander.tech/og-image.jpg" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:url" content="https://github.com/4DRIAN0RTIZ/NeoComposer" />
+	<meta property="og:type" content="website" />
+	<meta property="og:locale" content="es_ES" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="NeoComposer — Email desde la terminal" />
+	<meta name="twitter:description"
+		content="Cliente de correo minimalista para la terminal con soporte CLI programático." />
+	<meta name="twitter:image" content="https://neocomposer.cuevaneander.tech/og-image.jpg" />
+
+	<link rel="icon" type="image/png" href="favicon.png" />
+	<link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+	<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
+	<nav>
+		<a href="#" class="nav-brand">{ <span>Neo</span>Composer }</a>
+		<ul class="nav-links">
+			<li><a href="#instalacion" data-i18n="nav-install">Instalación</a></li>
+			<li><a href="#configuracion" data-i18n="nav-config">Configuración</a></li>
+			<li><a href="#uso" data-i18n="nav-usage">Uso</a></li>
+			<li><a href="#cli" data-i18n="nav-cli">CLI</a></li>
+			<li><a href="#agenda" data-i18n="nav-agenda">Agenda</a></li>
+			<li><a href="#roadmap" data-i18n="nav-roadmap">Roadmap</a></li>
+			<li><button id="lang-toggle" class="nav-lang">ES</button></li>
+			<li>
+				<a href="https://github.com/4DRIAN0RTIZ/NeoComposer" target="_blank" rel="noopener" class="nav-gh">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<path
+							d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+					</svg>
+					<span data-i18n="nav-github">GitHub</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+	<div class="hero">
+		<div class="hero-badge" data-i18n="hero-badge">v1.1.0 — estable</div>
+
+		<h1>
+			<span data-i18n="hero-title-line1">Email desde la</span><br />
+			<span class="accent" data-i18n="hero-title-accent">terminal</span><span class="dim">,</span><br />
+			<span data-i18n="hero-title-line3">como debe ser.</span>
+		</h1>
+
+		<p class="hero-sub" data-i18n="hero-subtitle">
+			NeoComposer es un cliente de correo minimalista para la terminal con soporte programático. Escribe con
+			Neovim, adjunta con Yazi o automatiza con CLI.
+		</p>
+
+		<div class="hero-actions">
+			<a href="#instalacion" class="btn btn-primary">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+					<polyline points="8 17 12 21 16 17" />
+					<line x1="12" y1="12" x2="12" y2="21" />
+					<path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29" />
+				</svg>
+				<span data-i18n="hero-btn-install">Instalar</span>
+			</a>
+			<a href="https://cuevaneander.tech/blog/envia-correos-desde-la-terminal-neocomposer-esta-aqui"
+				target="_blank" rel="noopener" class="btn btn-secondary">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+					<polyline points="14 2 14 8 20 8" />
+					<line x1="16" y1="13" x2="8" y2="13" />
+					<line x1="16" y1="17" x2="8" y2="17" />
+					<polyline points="10 9 9 9 8 9" />
+				</svg>
+				<span data-i18n="hero-btn-blog">Leer blog</span>
+			</a>
+		</div>
+
+		<!-- Terminal demo -->
+		<div class="terminal-wrap">
+			<div class="terminal">
+				<div class="terminal-bar">
+					<div class="dot dot-red"></div>
+					<div class="dot dot-yellow"></div>
+					<div class="dot dot-green"></div>
+					<span class="terminal-title">neocomposer — zsh</span>
+				</div>
+				<div class="terminal-body">
+					<div><span class="t-prompt">❯</span> <span class="t-cmd">neocomposer</span></div>
+					<div><span class="t-out" data-i18n="term-select">Select an option:</span></div>
+					<div><span class="t-out" data-i18n="term-opt1">1. Send to a one-time recipient</span></div>
+					<div><span class="t-out" data-i18n="term-opt2">2. Choose a recipient from agenda</span></div>
+					<div><span class="t-out" data-i18n="term-option">Option: </span><span class="t-input">2</span></div>
+					<div><span class="t-out" data-i18n="term-contacts">Contacts in agenda:</span></div>
+					<div><span class="t-out" data-i18n="term-contact1">1. Ada Lovelace (ada@example.com)</span></div>
+					<div><span class="t-out" data-i18n="term-contact-num">Contact number: </span><span class="t-input">1</span></div>
+					<div><span class="t-out" data-i18n="term-subject-label">Subject: </span><span class="t-input" data-i18n="term-input-subject">Successful deploy to production</span>
+					</div>
+					<div><span class="t-out" data-i18n="term-editor">&lt;opens Neovim — write with all the power of the editor&gt;</span></div>
+					<div><span class="t-out" data-i18n="term-attach">Do you want to attach a file? (Y/N): </span><span class="t-input">N</span>
+					</div>
+					<div><span class="t-out" data-i18n="term-sending">Sending email... |</span></div>
+					<div><span class="t-success" data-i18n="term-success">✓ Email sent successfully</span></div>
+					<div><span class="t-prompt">❯</span> <span class="t-cursor"></span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ FEATURES ══════════════════════════════ -->
+	<section id="features">
+		<div class="section-label" data-i18n="features-label">// características</div>
+		<h2 data-i18n="features-title">Para el dev que vive en la terminal</h2>
+		<p data-i18n="features-subtitle">NeoComposer integra las herramientas que ya usas, sin fricción. Ahora con
+			soporte CLI para automatización.</p>
+
+		<div class="features-grid">
+			<div class="feature-card">
+				<span class="feature-icon">📝</span>
+				<h3 data-i18n="feat-evim-title">Neovim como editor</h3>
+				<p data-i18n="feat-evim-desc">Escribe tu correo con el editor que ya dominas. Atajos, macros, plugins —
+					todo disponible. El archivo temporal se elimina al enviar.</p>
+			</div>
+			<div class="feature-card">
+				<span class="feature-icon">📎</span>
+				<h3 data-i18n="feat-ranger-title">Adjuntos via Yazi</h3>
+				<p data-i18n="feat-ranger-desc">Navega tu sistema de archivos con Yazi para seleccionar adjuntos. Sin
+					escribir rutas completas. Adjunta múltiples archivos.</p>
+			</div>
+			<div class="feature-card">
+				<span class="feature-icon">📋</span>
+				<h3 data-i18n="feat-agenda-title">Agenda de contactos</h3>
+				<p data-i18n="feat-agenda-desc">Guarda destinatarios frecuentes en un JSON. Gestión con flag -a o usa
+					índices con --agenda-index para scripting.</p>
+			</div>
+			<div class="feature-card">
+				<span class="feature-icon">✍️</span>
+				<h3 data-i18n="feat-signature-title">Firma HTML</h3>
+				<p data-i18n="feat-signature-desc">Define una firma personalizada en HTML con imágenes, links y estilos.
+					Se inyecta automáticamente en cada correo.</p>
+			</div>
+			<div class="feature-card">
+				<span class="feature-icon">🔐</span>
+				<h3 data-i18n="feat-smtp-title">SMTP + TLS</h3>
+				<p data-i18n="feat-smtp-desc">Conexión segura via STARTTLS. Compatible con Gmail, Outlook y cualquier
+					proveedor SMTP estándar.</p>
+			</div>
+			<div class="feature-card">
+				<span class="feature-icon">⚡</span>
+				<h3 data-i18n="feat-cli-title">Modo programático</h3>
+				<p data-i18n="feat-cli-desc">Integra en scripts con --recipient, --subject, --body, --attachments.
+					Automatiza notificaciones y reportes.</p>
+			</div>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ INSTALACIÓN ══════════════════════════════ -->
+	<section id="instalacion">
+		<div class="section-label" data-i18n="install-label">// instalación</div>
+		<h2 data-i18n="install-title">Listo en 3 pasos</h2>
+		<p data-i18n="install-subtitle">El instalador detecta tu distro, instala dependencias y configura el acceso
+			directo.</p>
+
+		<div class="code-block" style="margin-bottom: 2rem;">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="install-oneliner-label">instalación rápida</span>
+			</div>
+			<div class="code-body">
+				<span class="c-comment"># curl</span><br />
+				<span class="c-cmd">curl -fsSL https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh | bash</span><br />
+				<br />
+				<span class="c-comment"># wget</span><br />
+				<span class="c-cmd">wget -qO- https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh | bash</span>
+			</div>
+		</div>
+		<div class="callout callout-info" style="margin-bottom: 2.5rem;">
+			<span class="callout-icon">ℹ️</span>
+			<p><span data-i18n="install-oneliner-note">El instalador descarga los archivos directamente desde GitHub. Para instalación manual, clona el repositorio y ejecuta el script localmente.</span></p>
+		</div>
+
+		<div class="steps">
+			<div class="step">
+				<div class="step-num">01</div>
+				<div class="step-content">
+					<h3 data-i18n="install-step1">Clona el repositorio</h3>
+					<p data-i18n="install-step1-desc">Descarga NeoComposer desde GitHub.</p>
+					<div class="code-block">
+						<div class="code-header">
+							<span class="code-lang">bash</span>
+							<span>terminal</span>
+						</div>
+						<div class="code-body">
+							<span class="c-cmd">git clone https://github.com/4DRIAN0RTIZ/NeoComposer.git</span><br />
+							<span class="c-cmd">cd NeoComposer</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="step">
+				<div class="step-num">02</div>
+				<div class="step-content">
+					<h3 data-i18n="install-step2">Ejecuta el instalador</h3>
+					<p data-i18n="install-step2-desc">El script detecta Arch, Debian/Ubuntu o Fedora y se encarga del
+						resto: dependencias del sistema, dependencias Python, y el symlink.</p>
+					<div class="code-block">
+						<div class="code-header">
+							<span class="code-lang">bash</span>
+							<span>terminal</span>
+						</div>
+						<div class="code-body">
+							<span class="c-cmd">sudo chmod +x install_neocomposer.sh</span><br />
+							<span class="c-cmd">./install_neocomposer.sh</span>
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<span class="callout-icon">ℹ️</span>
+						<p><span data-i18n="install-step2-note">Distros soportadas: Arch, Ubuntu/Debian/Mint/Kali,
+								Fedora/CentOS/RHEL. El instalador instala yazi, neovim, jq y python3 si no están
+								presentes.</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="step">
+				<div class="step-num">03</div>
+				<div class="step-content">
+					<h3 data-i18n="install-step3">Configura tus credenciales</h3>
+					<p data-i18n="install-step3-desc">Edita el archivo .env que el instalador copió a
+						~/.config/neocomposer/.env.</p>
+					<div class="code-block">
+						<div class="code-header">
+							<span class="code-lang">env</span>
+							<span>~/.config/neocomposer/.env</span>
+						</div>
+						<div class="code-body">
+							<span class="c-key">SMTP_SERVER</span>=<span class="c-val">smtp.gmail.com</span><br />
+							<span class="c-key">SMTP_PORT</span>=<span class="c-num">587</span><br />
+							<span class="c-key">SENDER_EMAIL</span>=<span class="c-val">tu@email.com</span><br />
+							<span class="c-key">SENDER_PASSWORD</span>=<span class="c-val">tu_app_password</span><br />
+							<span class="c-key">SENDER_NAME</span>=<span class="c-val">Tu Nombre</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ CONFIGURACIÓN ══════════════════════════════ -->
+	<section id="configuracion">
+		<div class="section-label" data-i18n="config-label">// configuración</div>
+		<h2 data-i18n="config-title">SMTP y Gmail</h2>
+		<p data-i18n="config-subtitle">Instrucciones para conectar NeoComposer con Gmail usando contraseña de
+			aplicación.</p>
+
+		<div class="callout callout-warn">
+			<span class="callout-icon">⚠️</span>
+			<p data-i18n="config-warning">Gmail requiere contraseña de aplicación, no tu contraseña normal. Activa la
+				verificación en dos pasos primero, luego ve a Cuenta de Google → Seguridad → Contraseñas de aplicación.
+			</p>
+		</div>
+
+		<div class="steps" style="margin-top: 1.5rem;">
+			<div class="step">
+				<div class="step-num">1</div>
+				<div class="step-content">
+					<h3 data-i18n="config-step1">Activa IMAP en Gmail</h3>
+					<p data-i18n="config-step1-desc">En Gmail → Configuración → Ver toda la configuración → Reenvío y
+						correo POP/IMAP → Habilitar IMAP.</p>
+				</div>
+			</div>
+			<div class="step">
+				<div class="step-num">2</div>
+				<div class="step-content">
+					<h3 data-i18n="config-step2">Genera contraseña de aplicación</h3>
+					<p data-i18n="config-step2-desc">Google Account → Seguridad → Contraseñas de aplicación → Selecciona
+						"Otra" → genera y copia la clave de 16 caracteres.</p>
+				</div>
+			</div>
+			<div class="step">
+				<div class="step-num">3</div>
+				<div class="step-content">
+					<h3 data-i18n="config-step3">Configura el .env</h3>
+					<div class="code-block">
+						<div class="code-header">
+							<span class="code-lang">env</span>
+							<span>Gmail example</span>
+						</div>
+						<div class="code-body">
+							<span class="c-key">SMTP_SERVER</span>=<span class="c-val">smtp.gmail.com</span><br />
+							<span class="c-key">SMTP_PORT</span>=<span class="c-num">587</span><br />
+							<span class="c-key">SENDER_EMAIL</span>=<span class="c-val">tucuenta@gmail.com</span><br />
+							<span class="c-key">SENDER_PASSWORD</span>=<span class="c-val">abcd efgh ijkl mnop</span>
+							<span class="c-comment"># 16 chars, sin espacios</span><br />
+							<span class="c-key">SENDER_NAME</span>=<span class="c-val">Tu Nombre</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3 style="margin-top:2.5rem; margin-bottom:.75rem; font-size:1.1rem;" data-i18n="config-signature-title">Firma
+			HTML (opcional)</h3>
+		<p style="color:var(--muted); margin-bottom:1rem; font-size:.9rem;" data-i18n="config-signature-desc">Crea
+			<code>~/.config/NeoComposer/signature.html</code> con tu firma. Se añade automáticamente a cada correo.</p>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">html</span>
+				<span>~/.config/NeoComposer/signature.html</span>
+			</div>
+			<div class="code-body">
+				<span class="c-comment">&lt;!-- Ejemplo de firma --&gt;</span><br />
+				&lt;<span class="c-key">table</span> <span class="c-flag">style</span>=<span class="c-str">"font-family:
+					Arial, sans-serif; font-size: 14px;"</span>&gt;<br />
+				&nbsp;&nbsp;&lt;<span class="c-key">tr</span>&gt;<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-key">td</span>&gt;<span class="c-str">Tu
+					Nombre</span>&lt;/<span class="c-key">td</span>&gt;<br />
+				&nbsp;&nbsp;&lt;/<span class="c-key">tr</span>&gt;<br />
+				&nbsp;&nbsp;&lt;<span class="c-key">tr</span>&gt;<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-key">td</span>&gt;&lt;<span class="c-key">a</span> <span
+					class="c-flag">href</span>=<span class="c-str">"https://tusite.com"</span>&gt;<span
+					class="c-str">tusite.com</span>&lt;/<span class="c-key">a</span>&gt;&lt;/<span
+					class="c-key">td</span>&gt;<br />
+				&nbsp;&nbsp;&lt;/<span class="c-key">tr</span>&gt;<br />
+				&lt;/<span class="c-key">table</span>&gt;
+			</div>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ USO ══════════════════════════════ -->
+	<section id="uso">
+		<div class="section-label" data-i18n="usage-label">// uso</div>
+		<h2 data-i18n="usage-title">Flujo de trabajo interactivo</h2>
+		<p data-i18n="usage-subtitle">NeoComposer guía el proceso paso a paso.</p>
+
+		<table>
+			<thead>
+				<tr>
+					<th data-i18n="usage-cmd-header">Comando</th>
+					<th data-i18n="usage-desc-header">Descripción</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><code>neocomposer</code></td>
+					<td data-i18n="usage-cmd1">Inicia el compositor de correo</td>
+				</tr>
+				<tr>
+					<td><code>neocomposer --agenda</code></td>
+					<td data-i18n="usage-cmd2">Abre la gestión de agenda de contactos</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="margin-top:2rem;">
+			<h3 style="font-size:1.05rem; margin-bottom:1rem;" data-i18n="usage-cmd-title">Paso a paso al ejecutar
+				'neocomposer'</h3>
+			<div class="steps">
+				<div class="step">
+					<div class="step-num">1</div>
+					<div class="step-content">
+						<h3 data-i18n="usage-step1">Elige destinatario</h3>
+						<p data-i18n="usage-step1-desc">Ingresa un correo de uso único o selecciona uno de tu agenda.
+						</p>
+					</div>
+				</div>
+				<div class="step">
+					<div class="step-num">2</div>
+					<div class="step-content">
+						<h3 data-i18n="usage-step2">Escribe el asunto</h3>
+						<p data-i18n="usage-step2-desc">Texto libre en la terminal.</p>
+					</div>
+				</div>
+				<div class="step">
+					<div class="step-num">3</div>
+					<div class="step-content">
+						<h3 data-i18n="usage-step3">Redacta en Neovim</h3>
+						<p data-i18n="usage-step3-desc">Se abre un buffer temporal. Escribe con todos los poderes de
+							Neovim. Al guardar y salir (:wq) continúa el flujo.</p>
+					</div>
+				</div>
+				<div class="step">
+					<div class="step-num">4</div>
+					<div class="step-content">
+						<h3 data-i18n="usage-step4">Adjuntos opcionales</h3>
+						<p data-i18n="usage-step4-desc">Si confirmas con S, se abre Yazi para navegar y seleccionar
+							archivos. Puedes adjuntar múltiples.</p>
+					</div>
+				</div>
+				<div class="step">
+					<div class="step-num">5</div>
+					<div class="step-content">
+						<h3 data-i18n="usage-step5">Envío automático</h3>
+						<p data-i18n="usage-step5-desc">NeoComposer conecta al SMTP, añade la firma HTML si existe, y
+							envía. El archivo temporal se elimina.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ MODO PROGRAMÁTICO ══════════════════════════════ -->
+	<section id="cli">
+		<div class="section-label" data-i18n="cli-label">// programmatic mode</div>
+		<h2 data-i18n="cli-title">Usage in scripts and automation</h2>
+		<p data-i18n="cli-desc">Integrate NeoComposer in your workflows with CLI arguments. Perfect for notifications, automated reports, and CI/CD.</p>
+
+		<h3 style="margin-top: 2rem; margin-bottom: 1rem;" data-i18n="cli-examples-title">Examples</h3>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="cli-ex-simple">Email simple</span>
+			</div>
+			<div class="code-body">
+				<span class="c-cmd">neocomposer</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">admin@dominio.com</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Backup completado"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup de hoy se completó exitosamente"</span>
+			</div>
+		</div>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="cli-ex-attachments">Con múltiples adjuntos</span>
+			</div>
+			<div class="code-body">
+				<span class="c-cmd">neocomposer</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">equipo@dominio.com</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">-s</span> <span class="c-str">"Reporte de logs"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">-b</span> <span class="c-str">"Adjunto logs del sistema"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">-a</span> <span class="c-str">/var/log/syslog</span> <span class="c-str">/var/log/auth.log</span>
+			</div>
+		</div>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="cli-ex-bodyfile">Cuerpo desde archivo</span>
+			</div>
+			<div class="code-body">
+				<span class="c-cmd">neocomposer</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"cliente@ejemplo.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte mensual"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body-file</span> <span class="c-str">/tmp/reporte.html</span>
+			</div>
+		</div>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="cli-ex-agenda">Usando contacto de agenda</span>
+			</div>
+			<div class="code-body">
+				<span class="c-cmd">neocomposer</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--agenda-index</span> <span class="c-num">1</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Notificación automática"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este es un mensaje automatizado"</span>
+			</div>
+		</div>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">bash</span>
+				<span data-i18n="cli-ex-monitor">Integración en script de monitoreo</span>
+			</div>
+			<div class="code-body">
+				<span class="c-comment">#!/bin/bash</span><br />
+				<span class="c-cmd">DISCO</span>=$(df -h / | <span class="c-cmd">awk</span> <span class="c-str">'NR==2
+					{print $5}'</span> | <span class="c-cmd">sed</span> <span class="c-str">'s/%//'</span>)<br />
+				<span class="c-cmd">echo</span> <span class="c-str">"Uso de disco: ${DISCO}%"</span><br />
+				<br />
+				<span class="c-cmd">if</span> [ <span class="c-str">"$DISCO"</span> -gt <span class="c-num">80</span> ]; <span class="c-cmd">then</span><br />
+				&nbsp;&nbsp;<span class="c-cmd">neocomposer</span> \<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">"admin@dominio.com"</span> \<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-s</span> <span class="c-str">"ALERTA: Disco al ${DISCO}%"</span> \<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-b</span> <span class="c-str">"El servidor necesita atención urgente"</span><br />
+				<span class="c-cmd">fi</span>
+			</div>
+		</div>
+
+		<h3 style="margin-top: 2.5rem; margin-bottom: 1rem;" data-i18n="cli-script-title">Programmatic script (examples)</h3>
+		<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="cli-script-desc">Integrate NeoComposer in bash scripts to automate sends from cron, monitoring, or CI/CD.</p>
+
+		<details class="code-details">
+			<summary data-i18n="cli-summary-table">📜 View programmatic examples (bash)</summary>
+			<div class="code-body" style="padding: 0;">
+				<table style="margin:0;">
+					<thead>
+						<tr>
+							<th style="width:15%;">#</th>
+							<th>Ejemplo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>01</code></td>
+							<td data-i18n="cli-ex-row1">Simple email with recipient, subject, and direct body</td>
+						</tr>
+						<tr>
+							<td><code>02</code></td>
+							<td data-i18n="cli-ex-row2">Email with attachment</td>
+						</tr>
+						<tr>
+							<td><code>03</code></td>
+							<td data-i18n="cli-ex-row3">Multiple attachments and body from file</td>
+						</tr>
+						<tr>
+							<td><code>04</code></td>
+							<td data-i18n="cli-ex-row4">Using agenda contact by index</td>
+						</tr>
+						<tr>
+							<td><code>05</code></td>
+							<td data-i18n="cli-ex-row5">List agenda contacts</td>
+						</tr>
+						<tr>
+							<td><code>06</code></td>
+							<td data-i18n="cli-ex-row6">Send command output (e.g. <code>df -h</code>) by email</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex1-title">Example 1: Simple email</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-comment">#!/bin/bash</span><br />
+				<span class="c-cmd">python main.py</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"ejemplo@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte de backup"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup se completó exitosamente"</span>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex2-title">Example 2: Email with attachment</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-cmd">python main.py</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"admin@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Logs del sistema"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Adjunto los logs del día de hoy"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--attachments</span> <span class="c-str">"/var/log/syslog"</span>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex3-title">Example 3: Multiple attachments and body from file</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-cmd">python main.py</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"equipo@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte mensual"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body-file</span> <span class="c-str">/tmp/body.txt</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--attachments</span> <span class="c-str">"/tmp/reporte.pdf"</span> <span class="c-str">"/tmp/graficos.png"</span>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex4-title">Example 4: Using agenda contact (index 1)</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-cmd">python main.py</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--agenda-index</span> <span class="c-num">1</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Contacto desde agenda"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este email fue enviado usando el contacto de la agenda"</span>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex5-title">Example 5: List agenda contacts</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-cmd">python main.py</span> <span class="c-flag">--list-contacts</span>
+			</div>
+		</details>
+
+		<details class="code-details">
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex6-title">Example 6: Send command output by email</span></summary>
+			<div class="code-body" style="padding:1.25rem 1.5rem;">
+				<span class="c-comment">#!/bin/bash</span><br />
+				<span class="c-cmd">DF_OUTPUT</span>=$(df -h)<br />
+				<span class="c-cmd">python main.py</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"monitor@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Uso de disco"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"$DF_OUTPUT"</span>
+			</div>
+		</details>
+
+		<div style="margin-top: 2rem;">
+			<h3 data-i18n="cli-options" style="margin-bottom: 1rem;">Opciones disponibles</h3>
+			<table>
+				<thead>
+					<tr>
+						<th style="width: 25%;">Flag</th>
+						<th>Descripción</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><code>--recipient, -r</code></td>
+						<td data-i18n="cli-flag-recipient">Recipient email (required if not using --agenda-index)</td>
+					</tr>
+					<tr>
+						<td><code>--subject, -s</code></td>
+						<td data-i18n="cli-flag-subject">Email subject</td>
+					</tr>
+					<tr>
+						<td><code>--body, -b</code></td>
+						<td data-i18n="cli-flag-body">Message body (direct text)</td>
+					</tr>
+					<tr>
+						<td><code>--body-file, -f</code></td>
+						<td data-i18n="cli-flag-body-file">File with message body</td>
+					</tr>
+					<tr>
+						<td><code>--attachments, -a</code></td>
+						<td data-i18n="cli-flag-attachments">Files to attach (space separated, multiple)</td>
+					</tr>
+					<tr>
+						<td><code>--agenda-index, -i</code></td>
+						<td data-i18n="cli-flag-agenda-index">Contact index in agenda (1-indexed)</td>
+					</tr>
+					<tr>
+						<td><code>--list-contacts, -l</code></td>
+						<td data-i18n="cli-flag-list-contacts">List agenda contacts and exit</td>
+					</tr>
+					<tr>
+						<td><code>--interactive, -I</code></td>
+						<td data-i18n="cli-flag-interactive">Interactive mode (default if no other args passed)</td>
+					</tr>
+					<tr>
+						<td><code>--agenda</code></td>
+						<td data-i18n="cli-flag-agenda">Open contact agenda management</td>
+					</tr>
+					<tr>
+						<td><code>--help, -h</code></td>
+						<td data-i18n="cli-flag-help">Show full help</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ AGENDA ══════════════════════════════ -->
+	<section id="agenda">
+		<div class="section-label" data-i18n="agenda-label">// agenda</div>
+		<h2 data-i18n="agenda-title">Contact management</h2>
+		<p data-i18n="agenda-desc">The agenda is a JSON at <code>~/.config/neocomposer/agenda.json</code>. The <code>agenda.sh</code> script manages it interactively.</p>
+
+		<div class="code-block">
+			<div class="code-header">
+				<span class="code-lang">json</span>
+				<span>agenda.json</span>
+			</div>
+			<div class="code-body">
+				{<br />
+				&nbsp;&nbsp;<span class="c-key">"contactos"</span>: [<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"nombre"</span>: <span class="c-str">"Ada
+					Lovelace"</span>,<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"correo"</span>: <span
+					class="c-str">"ada@example.com"</span><br />
+				&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"nombre"</span>: <span class="c-str">"Linus
+					Torvalds"</span>,<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"correo"</span>: <span
+					class="c-str">"linus@linux.org"</span><br />
+				&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+				&nbsp;&nbsp;]<br />
+				}
+			</div>
+		</div>
+
+		<div class="callout callout-info" style="margin-top:1rem;">
+			<span class="callout-icon">💡</span>
+			<p data-i18n="agenda-tip">Run <code>neocomposer --agenda</code> to manage contacts without editing the JSON manually. You can add, modify, and delete from the interactive menu.</p>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ ROADMAP ══════════════════════════════ -->
+	<section id="roadmap">
+		<div class="section-label" data-i18n="roadmap-label">// roadmap</div>
+		<h2 data-i18n="roadmap-title">What's coming</h2>
+		<p data-i18n="roadmap-subtitle">What's implemented and what's planned.</p>
+
+		<h3 style="margin-bottom: 1rem;" data-i18n="roadmap-v110">v1.1.0 — Programmatic mode</h3>
+		<div class="roadmap">
+			<div class="roadmap-item">
+				<span class="tag tag-done">✓ done</span>
+				<span data-i18n="roadmap-done1">CLI arguments (--recipient, --subject, --body, --attachments)</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-done">✓ done</span>
+				<span data-i18n="roadmap-done2">Multiple attachments support</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-done">✓ done</span>
+				<span data-i18n="roadmap-done3">Body from file (--body-file)</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-done">✓ done</span>
+				<span data-i18n="roadmap-done4">Contact selection by index (--agenda-index)</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-done">✓ done</span>
+				<span data-i18n="roadmap-done5">Contact listing (--list-contacts)</span>
+			</div>
+		</div>
+
+		<h3 style="margin-top: 2rem; margin-bottom: 1rem;" data-i18n="roadmap-next">Upcoming versions</h3>
+		<div class="roadmap">
+			<div class="roadmap-item">
+				<span class="tag tag-planned">planned</span>
+				<span data-i18n="roadmap-planned1">Multi-account support (switch accounts at runtime)</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-planned">planned</span>
+				<span data-i18n="roadmap-planned2">Sent email history</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-planned">planned</span>
+				<span data-i18n="roadmap-planned3">Reusable email templates</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-planned">planned</span>
+				<span data-i18n="roadmap-planned4">Markdown to HTML formatting</span>
+			</div>
+			<div class="roadmap-item">
+				<span class="tag tag-idea">idea</span>
+				<span data-i18n="roadmap-idea1">Integration with password managers (pass, 1Password CLI)</span>
+			</div>
+		</div>
+	</section>
+
+	<hr class="divider" />
+
+	<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+	<footer>
+		<div class="footer-brand">{ NeoComposer }</div>
+		<p>
+			Creado por <a href="https://github.com/4DRIAN0RTIZ" target="_blank" rel="noopener">4DRIAN0RTIZ</a> ·
+			<a href="https://cuevaneander.tech" target="_blank" rel="noopener">La Cueva del NeanderTech</a> ·
+			<a href="https://github.com/4DRIAN0RTIZ/NeoComposer" target="_blank" rel="noopener">GitHub</a>
+		</p>
+		<p style="margin-top:.5rem; font-size:.78rem;" data-i18n="footer-tagline">Made from the terminal, for the terminal.</p>
+	</footer>
+
+	<script src="script.js"></script>
+
+</body>
+
+</html>
