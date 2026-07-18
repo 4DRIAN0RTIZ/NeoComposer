@@ -1,18 +1,19 @@
 #!/bin/bash
 
-# Instalador de NeoComposer | NeoComposer installer
-# Creado por 4DRIAN0RTIZ | Created by 4DRIAN0RTIZ
+# NeoComposer installer
+# Created by 4DRIAN0RTIZ
 
 red="\033[1;31m"
 green="\033[1;32m"
 yellow="\033[1;33m"
 reset="\033[0m"
 
+GITHUB_REPO="https://github.com/4DRIAN0RTIZ/NeoComposer.git"
 GITHUB_RAW="https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main"
 
 function ctrl_c() {
 	echo ""
-	echo "** Instalación cancelada **"
+	echo "** Installation cancelled **"
 	echo ""
 	exit 1
 }
@@ -21,7 +22,7 @@ trap ctrl_c INT
 # Detect local vs remote execution (curl | bash sets BASH_SOURCE[0] to empty)
 if [[ -n "${BASH_SOURCE[0]}" && "${BASH_SOURCE[0]}" != "bash" ]]; then
 	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-	if [[ -f "$SCRIPT_DIR/main.py" ]]; then
+	if [[ -f "$SCRIPT_DIR/pyproject.toml" ]]; then
 		MODE="local"
 	else
 		MODE="remote"
@@ -31,9 +32,9 @@ else
 	SCRIPT_DIR=""
 fi
 
-echo -e "${yellow}Modo: $MODE${reset}"
+echo -e "${yellow}Mode: $MODE${reset}"
 
-function obtener_distro() {
+function detect_distro() {
 	distro=$(grep -m1 "^ID=" /etc/os-release | awk -F'=' '{ print $2 }' | tr -d '"')
 
 	case "$distro" in
@@ -47,41 +48,42 @@ function obtener_distro() {
 		echo "pacman"
 		;;
 	*)
-		echo "No se pudo detectar la distro"
+		echo "Could not detect the distro"
 		exit 1
 		;;
 	esac
 }
 
-manejador_paquetes=$(obtener_distro)
+package_manager=$(detect_distro)
 
-function instalar_paquete() {
+function install_package() {
 	local pkg=$1
-	echo -e "${yellow}Instalando $pkg...${reset}"
-	case "$manejador_paquetes" in
+	echo -e "${yellow}Installing $pkg...${reset}"
+	case "$package_manager" in
 	"pacman")
 		sudo pacman -S "$pkg" --noconfirm
 		;;
 	*)
-		sudo "$manejador_paquetes" install "$pkg" -y
+		sudo "$package_manager" install "$pkg" -y
 		;;
 	esac
 }
 
-declare -A dependencias=(
+declare -A dependencies=(
 	["yazi"]="yazi"
 	["nvim"]="neovim"
 	["jq"]="jq"
 	["python3"]="python3"
 	["curl"]="curl"
+	["git"]="git"
 )
 
-for cmd in "${!dependencias[@]}"; do
+for cmd in "${!dependencies[@]}"; do
 	if ! command -v "$cmd" &>/dev/null; then
-		echo -e "${yellow}$cmd no encontrado. Instalando...${reset}"
-		instalar_paquete "${dependencias[$cmd]}"
+		echo -e "${yellow}$cmd not found. Installing...${reset}"
+		install_package "${dependencies[$cmd]}"
 		if [ $? -ne 0 ]; then
-			echo -e "${red}Error al instalar $cmd${reset}"
+			echo -e "${red}Error installing $cmd${reset}"
 			exit 1
 		fi
 	fi
@@ -90,68 +92,69 @@ done
 install_dir="$HOME/.config/neocomposer"
 mkdir -p "$install_dir"
 
-archivos=(
-	"main.py"
-	"email_client.py"
-	"agenda_manager.py"
-	"config_manager.py"
-	"mail_composer.py"
-	"mail_sender.py"
-	"requirements.txt"
-	"agenda.sh"
-	"agenda.json"
-	"signature.html"
+# Non-package files: user data / standalone tooling, not shipped inside the
+# neocomposer Python package, so they are installed as loose files.
+support_files=(
+	"contacts.sh"
+	"contacts.json"
 )
 
-function obtener_archivo() {
-	local archivo=$1
+function fetch_support_file() {
+	local file=$1
 	if [[ "$MODE" == "local" ]]; then
-		cp "$SCRIPT_DIR/$archivo" "$install_dir/"
+		cp "$SCRIPT_DIR/$file" "$install_dir/"
 	else
-		echo -e "${yellow}Descargando $archivo...${reset}"
-		curl -fsSL "$GITHUB_RAW/$archivo" -o "$install_dir/$archivo"
+		echo -e "${yellow}Downloading $file...${reset}"
+		curl -fsSL "$GITHUB_RAW/$file" -o "$install_dir/$file"
 		if [ $? -ne 0 ]; then
-			echo -e "${red}Error al descargar $archivo${reset}"
+			echo -e "${red}Error downloading $file${reset}"
 			exit 1
 		fi
 	fi
 }
 
-echo "Instalando archivos en $install_dir..."
-for archivo in "${archivos[@]}"; do
-	obtener_archivo "$archivo"
+echo "Installing support files in $install_dir..."
+for file in "${support_files[@]}"; do
+	fetch_support_file "$file"
 done
 
 if [ ! -f "$install_dir/.env" ]; then
 	if [[ "$MODE" == "local" ]]; then
 		cp "$SCRIPT_DIR/env.example" "$install_dir/.env"
 	else
-		echo -e "${yellow}Descargando env.example...${reset}"
+		echo -e "${yellow}Downloading env.example...${reset}"
 		curl -fsSL "$GITHUB_RAW/env.example" -o "$install_dir/.env"
 	fi
 fi
 
-echo "Creando entorno virtual..."
+echo "Creating virtual environment..."
 python3 -m venv "$install_dir/venv"
 if [ $? -ne 0 ]; then
-	echo -e "${red}Error al crear entorno virtual${reset}"
+	echo -e "${red}Error creating virtual environment${reset}"
 	exit 1
 fi
 
-echo "Instalando dependencias Python..."
-"$install_dir/venv/bin/pip" install -r "$install_dir/requirements.txt" -q
+echo "Installing the neocomposer package..."
+if [[ "$MODE" == "local" ]]; then
+	"$install_dir/venv/bin/pip" install "$SCRIPT_DIR" -q
+else
+	package_src_dir=$(mktemp -d)
+	git clone --depth 1 "$GITHUB_REPO" "$package_src_dir" -q
+	if [ $? -ne 0 ]; then
+		echo -e "${red}Error cloning the repository${reset}"
+		exit 1
+	fi
+	"$install_dir/venv/bin/pip" install "$package_src_dir" -q
+	rm -rf "$package_src_dir"
+fi
 if [ $? -ne 0 ]; then
-	echo -e "${red}Error al instalar dependencias Python${reset}"
+	echo -e "${red}Error installing the neocomposer package${reset}"
 	exit 1
 fi
 
 mkdir -p "$HOME/.local/bin"
 rm -f "$HOME/.local/bin/neocomposer"
-cat > "$HOME/.local/bin/neocomposer" << EOF
-#!/bin/bash
-exec "\$HOME/.config/neocomposer/venv/bin/python" "\$HOME/.config/neocomposer/main.py" "\$@"
-EOF
-chmod +x "$HOME/.local/bin/neocomposer"
+ln -sf "$install_dir/venv/bin/neocomposer" "$HOME/.local/bin/neocomposer"
 
-echo -e "${green}Instalación completada. Ejecuta: neocomposer${reset}"
-echo -e "${red}Configura tus credenciales en: $install_dir/.env${reset}"
+echo -e "${green}Installation complete. Run: neocomposer${reset}"
+echo -e "${red}Set up your credentials in: $install_dir/.env${reset}"

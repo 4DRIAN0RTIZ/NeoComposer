@@ -2,34 +2,33 @@ import os
 from dotenv import load_dotenv
 from typing import Optional
 
+from . import paths
+from .exceptions import ConfigError
+
 
 class ConfigManager:
-    """Gestiona la carga y validación de configuración desde .env"""
+    """Handles loading and validating configuration from .env"""
 
     def __init__(self, config_path: Optional[str] = None):
         """
         Args:
-            config_path: Ruta al archivo .env. Si no se especifica, usa el path por defecto
+            config_path: Path to the .env file. If not specified, uses the default path
         """
-        self.username = os.getlogin()
-        self.config_path = config_path or os.path.expanduser(
-            f"~{self.username}/.config/neocomposer/.env"
-        )
+        self.config_path = config_path or paths.get_env_path()
 
     def load(self) -> dict:
         """
-        Carga la configuración desde el archivo .env
+        Loads the configuration from the .env file
 
         Returns:
-            dict con las configuraciones SMTP y remitente
+            dict with SMTP and sender configuration
 
         Raises:
-            FileNotFoundError: Si el archivo .env no existe
-            ValueError: Si faltan variables obligatorias
+            ConfigError: If the .env file does not exist or required variables are missing
         """
         if not os.path.exists(self.config_path):
-            raise FileNotFoundError(
-                f"Archivo de configuración no encontrado: {self.config_path}"
+            raise ConfigError(
+                f"Configuration file not found: {self.config_path}"
             )
 
         load_dotenv(self.config_path)
@@ -47,20 +46,21 @@ class ConfigManager:
             "smtp_port",
             "sender_email",
             "sender_password",
+            "sender_name",
         ]
         missing = [field for field in required_fields if not config[field]]
 
         if missing:
-            raise ValueError(f"Variables de entorno faltantes: {', '.join(missing)}")
+            raise ConfigError(f"Missing environment variables: {', '.join(missing)}")
 
-        # Convertir puerto a entero
+        # Convert port to integer
         try:
             config["smtp_port"] = int(config["smtp_port"])
         except (ValueError, TypeError):
-            raise ValueError("SMTP_PORT debe ser un número entero")
+            raise ConfigError("SMTP_PORT must be an integer")
 
         return config
 
     def get_config_path(self) -> str:
-        """Retorna la ruta del archivo de configuración"""
+        """Returns the path of the configuration file"""
         return self.config_path
