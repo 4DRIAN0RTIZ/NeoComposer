@@ -41,7 +41,7 @@ neocomposer \
   -s "Reporte" \
   -a /var/log/syslog /tmp/report.pdf
 
-# Usando contacto de agenda
+# Usando contacto de la lista de contactos
 neocomposer -i 1 -s "Notificación" -b "Mensaje automático"
 
 # Listar contactos
@@ -56,7 +56,7 @@ Ver `--help` para todas las opciones.
 
 - ✏️ **Neovim** como editor nativo
 - 📎 **Yazi** para adjuntar archivos
-- 📋 **Agenda de contactos** JSON
+- 📋 **Lista de contactos** JSON
 - ✍️ **Firma HTML** personalizable
 - 🔐 **SMTP + STARTTLS**
 - ⚡ **Modo programático** con CLI
