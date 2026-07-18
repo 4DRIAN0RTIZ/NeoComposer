@@ -310,18 +310,28 @@
     }
 
     .feature-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      display: block;
+      font-size: 1.55rem;
+      margin: 0 .65rem 0 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      vertical-align: middle;
     }
 
     .feature-card h3 {
+      display: inline;
       font-size: 1.05rem;
       font-weight: 700;
-      margin-bottom: .5rem;
+      vertical-align: middle;
     }
 
-    .feature-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+    .feature-card p {
+      margin-top: .85rem;
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
     /* ── CODE BLOCK ── */
     .code-block {
@@ -415,16 +425,31 @@
     .callout {
       border-radius: var(--radius);
       padding: 1rem 1.25rem;
-      display: flex;
-      gap: .75rem;
+      display: grid;
+      grid-template-columns: 1.5rem minmax(0, 1fr);
+      align-items: start;
+      column-gap: .75rem;
       font-size: .9rem;
       margin: 1.25rem 0;
     }
 
     .callout-info  { background: rgba(88,166,255,.08); border: 1px solid rgba(88,166,255,.25); }
     .callout-warn  { background: rgba(210,153,34,.08); border: 1px solid rgba(210,153,34,.25); }
-    .callout-icon  { font-size: 1.1rem; flex-shrink: 0; }
-    .callout p     { color: var(--text); line-height: 1.5; }
+    .callout-info .callout-icon { color: var(--blue); background: rgba(88,166,255,.14); }
+    .callout-warn .callout-icon { color: var(--orange); background: rgba(210,153,34,.14); }
+    .callout-icon  {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: .78rem;
+      line-height: 1;
+      margin-top: .05rem;
+    }
+    .summary-icon  { color: var(--green); font-size: .85rem; margin-right: .35rem; }
+    .callout p     { color: var(--text); line-height: 1.5; margin: 0; }
     .callout p code {
       font-family: var(--font-mono);
       font-size: .82rem;

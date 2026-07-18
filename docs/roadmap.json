@@ -1,0 +1,132 @@
+{
+  "labels": {
+    "done": {
+      "en": "✓ done",
+      "es": "✓ hecho"
+    },
+    "planned": {
+      "en": "planned",
+      "es": "planeado"
+    },
+    "idea": {
+      "en": "idea",
+      "es": "idea"
+    }
+  },
+  "sections": [
+    {
+      "title": {
+        "en": "v0.1.0 — Programmatic mode",
+        "es": "v0.1.0 — Modo programático"
+      },
+      "items": [
+        {
+          "status": "done",
+          "text": {
+            "en": "CLI arguments (--recipient, --subject, --body, --attachments)",
+            "es": "Argumentos CLI (--recipient, --subject, --body, --attachments)"
+          },
+          "ref": {
+            "label": "v0.1.0 · d5f651f",
+            "url": "https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Multiple attachments support",
+            "es": "Soporte para múltiples archivos adjuntos"
+          },
+          "ref": {
+            "label": "v0.1.0 · d5f651f",
+            "url": "https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Body from file (--body-file)",
+            "es": "Cuerpo desde archivo (--body-file)"
+          },
+          "ref": {
+            "label": "v0.1.0 · d5f651f",
+            "url": "https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Contact listing (--list-contacts)",
+            "es": "Listado de contactos (--list-contacts)"
+          },
+          "ref": {
+            "label": "v0.1.0 · d5f651f",
+            "url": "https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "v1.0.0 — Installable package refactor",
+        "es": "v1.0.0 — Refactor a paquete instalable"
+      },
+      "items": [
+        {
+          "status": "done",
+          "text": {
+            "en": "Contact selection by index (--contact-index)",
+            "es": "Selección de contactos por índice (--contact-index)"
+          },
+          "ref": {
+            "label": "v1.0.0 · d4578ac",
+            "url": "https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d4578ac"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Upcoming versions",
+        "es": "Próximas versiones"
+      },
+      "items": [
+        {
+          "status": "planned",
+          "text": {
+            "en": "Multi-account support (switch accounts at runtime)",
+            "es": "Soporte multi-cuenta (cambio de cuenta en runtime)"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Sent email history",
+            "es": "Historial de correos enviados"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Reusable email templates",
+            "es": "Plantillas de correo reutilizables"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Markdown to HTML formatting",
+            "es": "Formato Markdown a HTML"
+          }
+        },
+        {
+          "status": "idea",
+          "text": {
+            "en": "Integration with password managers (pass, 1Password CLI)",
+            "es": "Integración con gestores de contraseñas (pass, 1Password CLI)"
+          }
+        }
+      ]
+    }
+  ]
+}
