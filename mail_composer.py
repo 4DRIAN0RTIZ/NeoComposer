@@ -9,12 +9,15 @@ from typing import List, Optional
 class MailComposer:
     """Compone mensajes MIME con cuerpo HTML, firma y adjuntos"""
 
-    def __init__(self, signature_path: str = "signature.html"):
+    def __init__(self, signature_path: Optional[str] = None):
         """
         Args:
-            signature_path: Ruta al archivo de firma HTML
+            signature_path: Ruta al archivo de firma HTML. Si no se especifica,
+                usa signature.html junto al script (independiente del cwd).
         """
-        self.signature_path = signature_path
+        self.signature_path = signature_path or os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "signature.html"
+        )
         self.signature_content = self._load_signature()
 
     def _load_signature(self) -> str:
