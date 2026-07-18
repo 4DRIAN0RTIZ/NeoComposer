@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [0.1.0] - 2026-07-18
 
 ### Bug Fixes
 
@@ -12,6 +12,7 @@ All notable changes to this project are documented here.
 
 ### Chore
 
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([881987c](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/881987cdfcf3a471e79e932579fe376459bb03bb))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([52539ee](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/52539ee580ef25bedec9a6d5dcad6e6d36514f5e))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([c5198d4](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/c5198d4f4f6dba4c0a71e6281b1e1b560cf13a5f))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([06f41d8](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/06f41d8eee45a113c02fb4ab66e43268725d9f26))
