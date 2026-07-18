@@ -80,7 +80,7 @@ async function getCurrentReleaseVersion() {
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 	const saved = localStorage.getItem('neo-lang') || 'en';
 	applyTranslations(saved);
 	getCurrentReleaseVersion();
