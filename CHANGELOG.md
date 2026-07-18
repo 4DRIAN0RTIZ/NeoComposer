@@ -12,7 +12,12 @@ All notable changes to this project are documented here.
 
 ### Chore
 
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([06f41d8](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/06f41d8eee45a113c02fb4ab66e43268725d9f26))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([236caac](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/236caaccd278a4c0861e7481a8d5c011b699ea59))
+
+### Documentation
+
+- Polish documentation page markup ([85e6f89](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/85e6f893fc989f75e807a0dcffe1dd486203eb0e))
 
 ### Features
 
