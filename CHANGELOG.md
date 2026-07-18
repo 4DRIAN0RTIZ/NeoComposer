@@ -6,7 +6,13 @@ All notable changes to this project are documented here.
 
 ### Chore
 
+- Ignore release.sh ([86d91fb](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/86d91fb44146b122bf7444b5bd4799db5b7b8921))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([ee2dc7d](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/ee2dc7d1af39d8765f8f2824ec361cee8a580b80))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([9e1c467](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/9e1c46744eb92a0e0bd4bb847d36eaa057f615d0))
+
+### Documentation
+
+- Update index page ([324684e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/324684e9e1ad307cec58c7393f7a8fdacd2ef692))
 
 ### Refactor
 
