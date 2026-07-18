@@ -8,6 +8,7 @@ const translations = {
     'nav-cli': 'CLI',
     'nav-agenda': 'Agenda',
     'nav-roadmap': 'Roadmap',
+    'nav-changelog': 'Changelog',
     'nav-github': 'GitHub',
     'hero-badge': 'v1.1.0 — stable',
     'hero-title-line1': 'Email from the',
@@ -126,6 +127,12 @@ const translations = {
     'roadmap-planned3': 'Reusable email templates',
     'roadmap-planned4': 'Markdown to HTML formatting',
     'roadmap-idea1': 'Integration with password managers (pass, 1Password CLI)',
+    'changelog-label': '// changelog',
+    'changelog-title': 'Version history',
+    'changelog-subtitle': 'Auto-generated from Conventional Commits on every push to main via <a href="https://github.com/orhun/git-cliff" target="_blank" rel="noopener">git-cliff</a>.',
+    'changelog-loading': 'Loading changelog…',
+    'changelog-full': 'Full history: ',
+    'changelog-empty-msg': 'No changelog entries yet — check back after the next release.',
     'footer-tagline': 'Made from the terminal, for the terminal.',
     'term-select': 'Select an option:',
     'term-opt1': '1. Send to a one-time recipient',
@@ -150,6 +157,7 @@ const translations = {
     'nav-cli': 'CLI',
     'nav-agenda': 'Agenda',
     'nav-roadmap': 'Roadmap',
+    'nav-changelog': 'Changelog',
     'nav-github': 'GitHub',
     'hero-badge': 'v1.1.0 — estable',
     'hero-title-line1': 'Email desde la',
@@ -268,6 +276,12 @@ const translations = {
     'roadmap-planned3': 'Plantillas de correo reutilizables',
     'roadmap-planned4': 'Formato Markdown a HTML',
     'roadmap-idea1': 'Integración con gestores de contraseñas (pass, 1Password CLI)',
+    'changelog-label': '// changelog',
+    'changelog-title': 'Historial de versiones',
+    'changelog-subtitle': 'Generado automáticamente desde Conventional Commits en cada push a main con <a href="https://github.com/orhun/git-cliff" target="_blank" rel="noopener">git-cliff</a>.',
+    'changelog-loading': 'Cargando changelog…',
+    'changelog-full': 'Historial completo: ',
+    'changelog-empty-msg': 'Todavía no hay entradas, volvé a revisar después del próximo release.',
     'footer-tagline': 'Hecho desde la terminal, para la terminal.',
     'term-select': 'Seleccione una opción:',
     'term-opt1': '1. Enviar a un destinatario de uso único',
@@ -339,4 +353,77 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     header.appendChild(copyBtn);
   });
+
+  loadChangelog();
 });
+
+const CHANGELOG_REPO = 'https://github.com/4DRIAN0RTIZ/NeoComposer';
+
+const CHANGELOG_GROUP_TAGS = {
+  Features: 'tag-feat',
+  'Bug Fixes': 'tag-fix',
+  Documentation: 'tag-docs',
+  Refactor: 'tag-refactor',
+  Performance: 'tag-feat',
+};
+
+function changelogTagClass(group) {
+  return CHANGELOG_GROUP_TAGS[group] || 'tag-chore';
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+async function loadChangelog() {
+  const container = document.getElementById('changelog-content');
+  if (!container) return;
+
+  try {
+    const res = await fetch('changelog.json');
+    if (!res.ok) throw new Error('changelog.json not found');
+    const releases = await res.json();
+
+    const withCommits = (releases || []).filter(r => (r.commits || []).length > 0);
+    if (withCommits.length === 0) {
+      renderChangelogEmpty(container);
+      return;
+    }
+
+    container.innerHTML = withCommits.map(release => {
+      const version = release.version || 'Unreleased';
+      const date = release.timestamp
+        ? new Date(release.timestamp * 1000).toISOString().slice(0, 10)
+        : '';
+
+      const entries = (release.commits || []).map(c => {
+        const tagClass = changelogTagClass(c.group);
+        const label = c.group || 'Other';
+        const sha = (c.id || '').slice(0, 7);
+        const url = c.id ? `${CHANGELOG_REPO}/commit/${c.id}` : null;
+        return `
+          <div class="changelog-entry">
+            <span class="tag ${tagClass}">${escapeHtml(label)}</span>
+            <span>${escapeHtml(c.message || '')}</span>
+            ${url ? `<a href="${url}" target="_blank" rel="noopener">${sha}</a>` : ''}
+          </div>`;
+      }).join('');
+
+      return `
+        <div class="changelog-version">
+          <h3>${escapeHtml(version)} ${date ? `<span class="changelog-date">— ${date}</span>` : ''}</h3>
+          ${entries}
+        </div>`;
+    }).join('');
+  } catch (e) {
+    renderChangelogEmpty(container);
+  }
+}
+
+function renderChangelogEmpty(container) {
+  const lang = localStorage.getItem('neo-lang') || 'en';
+  const t = translations[lang] || translations.en;
+  container.innerHTML = `<p class="changelog-empty">${t['changelog-empty-msg']}</p>`;
+}

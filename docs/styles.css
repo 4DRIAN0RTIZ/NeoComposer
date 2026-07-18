@@ -494,6 +494,53 @@
     .tag-planned { background: rgba(88,166,255,.1);  color: var(--blue);  border: 1px solid rgba(88,166,255,.25); }
     .tag-idea    { background: rgba(188,140,255,.1); color: var(--purple); border: 1px solid rgba(188,140,255,.25); }
 
+    .roadmap-ref {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .roadmap-ref a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--border); }
+    .roadmap-ref a:hover { color: var(--blue); border-color: var(--blue); }
+
+    /* ── CHANGELOG ── */
+    .changelog-version { margin-top: 2rem; }
+    .changelog-version:first-child { margin-top: 0; }
+
+    .changelog-version h3 {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      margin-bottom: .9rem;
+      color: var(--text);
+    }
+
+    .changelog-version h3 .changelog-date { color: var(--muted); font-weight: normal; font-size: .82rem; }
+
+    .changelog-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: .75rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: .88rem;
+      margin-bottom: .6rem;
+    }
+
+    .changelog-entry a { color: var(--muted); text-decoration: none; font-family: var(--font-mono); font-size: .75rem; margin-left: auto; white-space: nowrap; }
+    .changelog-entry a:hover { color: var(--blue); }
+
+    .tag-feat     { background: rgba(63,185,80,.15);  color: var(--green);  border: 1px solid rgba(63,185,80,.3); }
+    .tag-fix      { background: rgba(248,81,73,.12);  color: var(--red);    border: 1px solid rgba(248,81,73,.3); }
+    .tag-docs     { background: rgba(88,166,255,.1);  color: var(--blue);   border: 1px solid rgba(88,166,255,.25); }
+    .tag-refactor { background: rgba(188,140,255,.1); color: var(--purple); border: 1px solid rgba(188,140,255,.25); }
+    .tag-chore    { background: var(--surface2);      color: var(--muted);  border: 1px solid var(--border); }
+
+    .changelog-empty { color: var(--muted); font-size: .9rem; }
+
     /* ── DETAILS / ACCORDION ── */
     details.code-details {
       background: #010409;
