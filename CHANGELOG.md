@@ -2,10 +2,11 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [1.0.0] - 2026-07-18
 
 ### Chore
 
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([cb1e913](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/cb1e9131c3207dae47280e0c00e7cf44fd727e87))
 - Ignore release.sh ([86d91fb](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/86d91fb44146b122bf7444b5bd4799db5b7b8921))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([ee2dc7d](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/ee2dc7d1af39d8765f8f2824ec361cee8a580b80))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([9e1c467](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/9e1c46744eb92a0e0bd4bb847d36eaa057f615d0))
