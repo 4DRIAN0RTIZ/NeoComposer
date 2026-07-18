@@ -110,11 +110,15 @@
 					<div><span class="t-out" data-i18n="term-option">Option: </span><span class="t-input">2</span></div>
 					<div><span class="t-out" data-i18n="term-contacts">Contacts in agenda:</span></div>
 					<div><span class="t-out" data-i18n="term-contact1">1. Ada Lovelace (ada@example.com)</span></div>
-					<div><span class="t-out" data-i18n="term-contact-num">Contact number: </span><span class="t-input">1</span></div>
-					<div><span class="t-out" data-i18n="term-subject-label">Subject: </span><span class="t-input" data-i18n="term-input-subject">Successful deploy to production</span>
+					<div><span class="t-out" data-i18n="term-contact-num">Contact number: </span><span
+							class="t-input">1</span></div>
+					<div><span class="t-out" data-i18n="term-subject-label">Subject: </span><span class="t-input"
+							data-i18n="term-input-subject">Successful deploy to production</span>
 					</div>
-					<div><span class="t-out" data-i18n="term-editor">&lt;opens Neovim — write with all the power of the editor&gt;</span></div>
-					<div><span class="t-out" data-i18n="term-attach">Do you want to attach a file? (Y/N): </span><span class="t-input">N</span>
+					<div><span class="t-out" data-i18n="term-editor">&lt;opens Neovim — write with all the power of the
+							editor&gt;</span></div>
+					<div><span class="t-out" data-i18n="term-attach">Do you want to attach a file? (Y/N): </span><span
+							class="t-input">N</span>
 					</div>
 					<div><span class="t-out" data-i18n="term-sending">Sending email... |</span></div>
 					<div><span class="t-success" data-i18n="term-success">✓ Email sent successfully</span></div>
@@ -189,15 +193,19 @@
 			</div>
 			<div class="code-body">
 				<span class="c-comment"># curl</span><br />
-				<span class="c-cmd">curl -fsSL https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh | bash</span><br />
+				<span class="c-cmd">curl -fsSL
+					https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh |
+					bash</span><br />
 				<br />
 				<span class="c-comment"># wget</span><br />
-				<span class="c-cmd">wget -qO- https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh | bash</span>
+				<span class="c-cmd">wget -qO-
+					https://raw.githubusercontent.com/4DRIAN0RTIZ/NeoComposer/main/install_neocomposer.sh | bash</span>
 			</div>
 		</div>
 		<div class="callout callout-info" style="margin-bottom: 2.5rem;">
 			<span class="callout-icon">ℹ️</span>
-			<p><span data-i18n="install-oneliner-note">El instalador descarga los archivos directamente desde GitHub. Para instalación manual, clona el repositorio y ejecuta el script localmente.</span></p>
+			<p><span data-i18n="install-oneliner-note">El instalador descarga los archivos directamente desde GitHub.
+					Para instalación manual, clona el repositorio y ejecuta el script localmente.</span></p>
 		</div>
 
 		<div class="steps">
@@ -326,7 +334,8 @@
 		<h3 style="margin-top:2.5rem; margin-bottom:.75rem; font-size:1.1rem;" data-i18n="config-signature-title">Firma
 			HTML (opcional)</h3>
 		<p style="color:var(--muted); margin-bottom:1rem; font-size:.9rem;" data-i18n="config-signature-desc">Crea
-			<code>~/.config/NeoComposer/signature.html</code> con tu firma. Se añade automáticamente a cada correo.</p>
+			<code>~/.config/NeoComposer/signature.html</code> con tu firma. Se añade automáticamente a cada correo.
+		</p>
 
 		<div class="code-block">
 			<div class="code-header">
@@ -432,7 +441,8 @@
 	<section id="cli">
 		<div class="section-label" data-i18n="cli-label">// programmatic mode</div>
 		<h2 data-i18n="cli-title">Usage in scripts and automation</h2>
-		<p data-i18n="cli-desc">Integrate NeoComposer in your workflows with CLI arguments. Perfect for notifications, automated reports, and CI/CD.</p>
+		<p data-i18n="cli-desc">Integrate NeoComposer in your workflows with CLI arguments. Perfect for notifications,
+			automated reports, and CI/CD.</p>
 
 		<h3 style="margin-top: 2rem; margin-bottom: 1rem;" data-i18n="cli-examples-title">Examples</h3>
 
@@ -445,7 +455,8 @@
 				<span class="c-cmd">neocomposer</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">admin@dominio.com</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Backup completado"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup de hoy se completó exitosamente"</span>
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup de hoy se completó
+					exitosamente"</span>
 			</div>
 		</div>
 
@@ -459,7 +470,8 @@
 				&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">equipo@dominio.com</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">-s</span> <span class="c-str">"Reporte de logs"</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">-b</span> <span class="c-str">"Adjunto logs del sistema"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">-a</span> <span class="c-str">/var/log/syslog</span> <span class="c-str">/var/log/auth.log</span>
+				&nbsp;&nbsp;<span class="c-flag">-a</span> <span class="c-str">/var/log/syslog</span> <span
+					class="c-str">/var/log/auth.log</span>
 			</div>
 		</div>
 
@@ -470,7 +482,8 @@
 			</div>
 			<div class="code-body">
 				<span class="c-cmd">neocomposer</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"cliente@ejemplo.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"cliente@ejemplo.com"</span>
+				\<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte mensual"</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--body-file</span> <span class="c-str">/tmp/reporte.html</span>
 			</div>
@@ -484,8 +497,10 @@
 			<div class="code-body">
 				<span class="c-cmd">neocomposer</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--agenda-index</span> <span class="c-num">1</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Notificación automática"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este es un mensaje automatizado"</span>
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Notificación automática"</span>
+				\<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este es un mensaje
+					automatizado"</span>
 			</div>
 		</div>
 
@@ -500,17 +515,23 @@
 					{print $5}'</span> | <span class="c-cmd">sed</span> <span class="c-str">'s/%//'</span>)<br />
 				<span class="c-cmd">echo</span> <span class="c-str">"Uso de disco: ${DISCO}%"</span><br />
 				<br />
-				<span class="c-cmd">if</span> [ <span class="c-str">"$DISCO"</span> -gt <span class="c-num">80</span> ]; <span class="c-cmd">then</span><br />
+				<span class="c-cmd">if</span> [ <span class="c-str">"$DISCO"</span> -gt <span class="c-num">80</span> ];
+				<span class="c-cmd">then</span><br />
 				&nbsp;&nbsp;<span class="c-cmd">neocomposer</span> \<br />
-				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">"admin@dominio.com"</span> \<br />
-				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-s</span> <span class="c-str">"ALERTA: Disco al ${DISCO}%"</span> \<br />
-				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-b</span> <span class="c-str">"El servidor necesita atención urgente"</span><br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">"admin@dominio.com"</span>
+				\<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-s</span> <span class="c-str">"ALERTA: Disco al
+					${DISCO}%"</span> \<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-flag">-b</span> <span class="c-str">"El servidor necesita
+					atención urgente"</span><br />
 				<span class="c-cmd">fi</span>
 			</div>
 		</div>
 
-		<h3 style="margin-top: 2.5rem; margin-bottom: 1rem;" data-i18n="cli-script-title">Programmatic script (examples)</h3>
-		<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="cli-script-desc">Integrate NeoComposer in bash scripts to automate sends from cron, monitoring, or CI/CD.</p>
+		<h3 style="margin-top: 2.5rem; margin-bottom: 1rem;" data-i18n="cli-script-title">Programmatic script (examples)
+		</h3>
+		<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="cli-script-desc">Integrate NeoComposer in bash
+			scripts to automate sends from cron, monitoring, or CI/CD.</p>
 
 		<details class="code-details">
 			<summary data-i18n="cli-summary-table">📜 View programmatic examples (bash)</summary>
@@ -553,62 +574,77 @@
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex1-title">Example 1: Simple email</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex1-title">Example 1: Simple
+					email</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-comment">#!/bin/bash</span><br />
 				<span class="c-cmd">python main.py</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"ejemplo@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"ejemplo@dominio.com"</span>
+				\<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte de backup"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup se completó exitosamente"</span>
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"El backup se completó
+					exitosamente"</span>
 			</div>
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex2-title">Example 2: Email with attachment</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex2-title">Example 2: Email with
+					attachment</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-cmd">python main.py</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"admin@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"admin@dominio.com"</span>
+				\<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Logs del sistema"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Adjunto los logs del día de hoy"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Adjunto los logs del día de
+					hoy"</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--attachments</span> <span class="c-str">"/var/log/syslog"</span>
 			</div>
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex3-title">Example 3: Multiple attachments and body from file</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex3-title">Example 3: Multiple
+					attachments and body from file</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-cmd">python main.py</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"equipo@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"equipo@dominio.com"</span>
+				\<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Reporte mensual"</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--body-file</span> <span class="c-str">/tmp/body.txt</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--attachments</span> <span class="c-str">"/tmp/reporte.pdf"</span> <span class="c-str">"/tmp/graficos.png"</span>
+				&nbsp;&nbsp;<span class="c-flag">--attachments</span> <span class="c-str">"/tmp/reporte.pdf"</span>
+				<span class="c-str">"/tmp/graficos.png"</span>
 			</div>
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex4-title">Example 4: Using agenda contact (index 1)</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex4-title">Example 4: Using agenda
+					contact (index 1)</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-cmd">python main.py</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--agenda-index</span> <span class="c-num">1</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Contacto desde agenda"</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este email fue enviado usando el contacto de la agenda"</span>
+				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Contacto desde agenda"</span>
+				\<br />
+				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"Este email fue enviado usando el
+					contacto de la agenda"</span>
 			</div>
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex5-title">Example 5: List agenda contacts</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex5-title">Example 5: List agenda
+					contacts</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-cmd">python main.py</span> <span class="c-flag">--list-contacts</span>
 			</div>
 		</details>
 
 		<details class="code-details">
-			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex6-title">Example 6: Send command output by email</span></summary>
+			<summary><span style="color:var(--green);">▶</span> <span data-i18n="cli-ex6-title">Example 6: Send command
+					output by email</span></summary>
 			<div class="code-body" style="padding:1.25rem 1.5rem;">
 				<span class="c-comment">#!/bin/bash</span><br />
 				<span class="c-cmd">DF_OUTPUT</span>=$(df -h)<br />
 				<span class="c-cmd">python main.py</span> \<br />
-				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"monitor@dominio.com"</span> \<br />
+				&nbsp;&nbsp;<span class="c-flag">--recipient</span> <span class="c-str">"monitor@dominio.com"</span>
+				\<br />
 				&nbsp;&nbsp;<span class="c-flag">--subject</span> <span class="c-str">"Uso de disco"</span> \<br />
 				&nbsp;&nbsp;<span class="c-flag">--body</span> <span class="c-str">"$DF_OUTPUT"</span>
 			</div>
@@ -676,7 +712,8 @@
 	<section id="agenda">
 		<div class="section-label" data-i18n="agenda-label">// agenda</div>
 		<h2 data-i18n="agenda-title">Contact management</h2>
-		<p data-i18n="agenda-desc">The agenda is a JSON at <code>~/.config/neocomposer/agenda.json</code>. The <code>agenda.sh</code> script manages it interactively.</p>
+		<p data-i18n="agenda-desc">The agenda is a JSON at <code>~/.config/neocomposer/agenda.json</code>. The
+			<code>agenda.sh</code> script manages it interactively.</p>
 
 		<div class="code-block">
 			<div class="code-header">
@@ -705,7 +742,8 @@
 
 		<div class="callout callout-info" style="margin-top:1rem;">
 			<span class="callout-icon">💡</span>
-			<p data-i18n="agenda-tip">Run <code>neocomposer --agenda</code> to manage contacts without editing the JSON manually. You can add, modify, and delete from the interactive menu.</p>
+			<p data-i18n="agenda-tip">Run <code>neocomposer --agenda</code> to manage contacts without editing the JSON
+				manually. You can add, modify, and delete from the interactive menu.</p>
 		</div>
 	</section>
 
@@ -722,27 +760,32 @@
 			<div class="roadmap-item">
 				<span class="tag tag-done">✓ done</span>
 				<span data-i18n="roadmap-done1">CLI arguments (--recipient, --subject, --body, --attachments)</span>
-				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f" target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
+				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+						target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
 			</div>
 			<div class="roadmap-item">
 				<span class="tag tag-done">✓ done</span>
 				<span data-i18n="roadmap-done2">Multiple attachments support</span>
-				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f" target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
+				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+						target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
 			</div>
 			<div class="roadmap-item">
 				<span class="tag tag-done">✓ done</span>
 				<span data-i18n="roadmap-done3">Body from file (--body-file)</span>
-				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f" target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
+				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+						target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
 			</div>
 			<div class="roadmap-item">
 				<span class="tag tag-done">✓ done</span>
 				<span data-i18n="roadmap-done4">Contact selection by index (--agenda-index)</span>
-				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f" target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
+				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+						target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
 			</div>
 			<div class="roadmap-item">
 				<span class="tag tag-done">✓ done</span>
 				<span data-i18n="roadmap-done5">Contact listing (--list-contacts)</span>
-				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f" target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
+				<span class="roadmap-ref"><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d5f651f"
+						target="_blank" rel="noopener">v1.1.0 · d5f651f</a></span>
 			</div>
 		</div>
 
@@ -777,7 +820,8 @@
 	<section id="changelog">
 		<div class="section-label" data-i18n="changelog-label">// changelog</div>
 		<h2 data-i18n="changelog-title">Version history</h2>
-		<p data-i18n="changelog-subtitle">Auto-generated from Conventional Commits on every push to main via <a href="https://github.com/orhun/git-cliff" target="_blank" rel="noopener">git-cliff</a>.</p>
+		<p data-i18n="changelog-subtitle">Auto-generated via <a href="https://github.com/orhun/git-cliff"
+				target="_blank" rel="noopener">git-cliff</a>.</p>
 
 		<div id="changelog-content" style="margin-top: 1.5rem;">
 			<p class="changelog-empty" data-i18n="changelog-loading">Loading changelog…</p>
@@ -785,7 +829,9 @@
 
 		<div class="callout callout-info" style="margin-top:1.5rem;">
 			<span class="callout-icon">📄</span>
-			<p><span data-i18n="changelog-full">Full history: </span><a href="https://github.com/4DRIAN0RTIZ/NeoComposer/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md</a></p>
+			<p><span data-i18n="changelog-full">Full history: </span><a
+					href="https://github.com/4DRIAN0RTIZ/NeoComposer/blob/main/CHANGELOG.md" target="_blank"
+					rel="noopener">CHANGELOG.md</a></p>
 		</div>
 	</section>
 
@@ -799,7 +845,8 @@
 			<a href="https://cuevaneander.tech" target="_blank" rel="noopener">La Cueva del NeanderTech</a> ·
 			<a href="https://github.com/4DRIAN0RTIZ/NeoComposer" target="_blank" rel="noopener">GitHub</a>
 		</p>
-		<p style="margin-top:.5rem; font-size:.78rem;" data-i18n="footer-tagline">Made from the terminal, for the terminal.</p>
+		<p style="margin-top:.5rem; font-size:.78rem;" data-i18n="footer-tagline">Made from the terminal, for the
+			terminal.</p>
 	</footer>
 
 	<script src="script.js"></script>
