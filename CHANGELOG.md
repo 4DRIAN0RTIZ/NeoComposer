@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Bug Fixes
+
+- Make DOMContentLoaded handler async (#3) ([b7157d0](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b7157d0bf9a58dc461386b5567924e57392d5d52))
+
 ## [1.0.1] - 2026-07-18
 
 ### Chore
