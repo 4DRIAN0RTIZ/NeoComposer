@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.1] - 2026-07-18
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([104ac94](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/104ac94778a90438f69ce352183ae3e8f52e5267))
+
 ## [1.0.0] - 2026-07-18
 
 ### Chore
