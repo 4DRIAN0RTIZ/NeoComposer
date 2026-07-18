@@ -12,12 +12,14 @@ All notable changes to this project are documented here.
 
 ### Chore
 
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([52539ee](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/52539ee580ef25bedec9a6d5dcad6e6d36514f5e))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([c5198d4](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/c5198d4f4f6dba4c0a71e6281b1e1b560cf13a5f))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([06f41d8](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/06f41d8eee45a113c02fb4ab66e43268725d9f26))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([236caac](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/236caaccd278a4c0861e7481a8d5c011b699ea59))
 
 ### Documentation
 
+- Remove changelog generator subtitle ([751ca56](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/751ca5605bbc414139d30ac493727848fdc5821c))
 - Simplify changelog messaging ([e843d6c](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e843d6c3b4e6307570b1e5dc7338e7de1e0b1484))
 - Polish documentation page markup ([85e6f89](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/85e6f893fc989f75e807a0dcffe1dd486203eb0e))
 
