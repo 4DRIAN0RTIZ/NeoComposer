@@ -6,8 +6,13 @@ All notable changes to this project are documented here.
 
 ### Bug Fixes
 
+- Generate docs/changelog.json via direct git-cliff call ([c78a67f](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/c78a67fffd7bf6dbb45d1d702475b58e4783e600))
 - Use group_by filter, commit_groups unavailable in git-cliff v2.13.1 ([125df2d](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/125df2d3485a92cd219a77e8047acd07e14f07f8))
 - Resolve signature loading path ([b70b8e4](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b70b8e4b381cea84d7b3935a50832b286d2eb6f2))
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([236caac](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/236caaccd278a4c0861e7481a8d5c011b699ea59))
 
 ### Features
 
