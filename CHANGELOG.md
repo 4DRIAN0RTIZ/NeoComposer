@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.0] - 2026-07-18
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([cb1e913](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/cb1e9131c3207dae47280e0c00e7cf44fd727e87))
+- Ignore release.sh ([86d91fb](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/86d91fb44146b122bf7444b5bd4799db5b7b8921))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([ee2dc7d](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/ee2dc7d1af39d8765f8f2824ec361cee8a580b80))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([9e1c467](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/9e1c46744eb92a0e0bd4bb847d36eaa057f615d0))
+
+### Documentation
+
+- Update index page ([324684e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/324684e9e1ad307cec58c7393f7a8fdacd2ef692))
+
+### Refactor
+
+- Migrate neocomposer to installable src package ([d4578ac](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d4578ac306615fa3865d312e8e120ccdef345102))
+
 ## [0.1.0] - 2026-07-18
 
 ### Bug Fixes

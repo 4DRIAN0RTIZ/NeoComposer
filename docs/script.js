@@ -55,9 +55,35 @@ async function applyTranslations(lang) {
 	await renderRoadmap(activeLang);
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-	const saved = localStorage.getItem('neo-lang') || DEFAULT_LANG;
-	await applyTranslations(saved);
+async function getCurrentReleaseVersion() {
+	try {
+		const response = await fetch('changelog.json');
+
+		if (!response.ok) throw new Error('HTTP error ' + response.status);
+
+		const jsonData = await response.json();
+
+		const version = jsonData[0]?.version || 'N/A';
+
+		if (!version) throw new Error('Version not found in changelog.json');
+
+		const field = document.getElementById('hero-badge-release');
+
+		if (field) {
+			field.textContent = version;
+
+		}
+	}
+	catch (error) {
+		console.error('Error fetching changelog.json:', error);
+	}
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	const saved = localStorage.getItem('neo-lang') || 'en';
+	applyTranslations(saved);
+	getCurrentReleaseVersion();
 
 	const btn = document.getElementById('lang-toggle');
 	if (btn) {
