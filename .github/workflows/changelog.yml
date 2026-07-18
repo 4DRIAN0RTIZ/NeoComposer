@@ -31,12 +31,8 @@ jobs:
           OUTPUT: CHANGELOG.md
 
       - name: Generate docs/changelog.json
-        uses: orhun/git-cliff-action@v4
-        with:
-          config: cliff.toml
-          args: --context --verbose
-        env:
-          OUTPUT: docs/changelog.json
+        run: |
+          "$RUNNER_TEMP/git-cliff/bin/git-cliff" --config cliff.toml --context --output docs/changelog.json --verbose
 
       - name: Commit and push if changed
         run: |
