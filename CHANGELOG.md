@@ -14,6 +14,7 @@ All notable changes to this project are documented here.
 ### Documentation
 
 - Update index page ([324684e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/324684e9e1ad307cec58c7393f7a8fdacd2ef692))
+- Load localized content from json data files ([e891311](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e8913115e2c2e119a0b94064c2b1e3fc58ad906a))
 
 ### Refactor
 
