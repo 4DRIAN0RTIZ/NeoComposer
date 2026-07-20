@@ -11,6 +11,10 @@
     "idea": {
       "en": "idea",
       "es": "idea"
+    },
+    "working": {
+      "en": "in progress",
+      "es": "en progreso"
     }
   },
   "sections": [
@@ -106,7 +110,7 @@
           }
         },
         {
-          "status": "planned",
+          "status": "working",
           "text": {
             "en": "Reusable email templates",
             "es": "Plantillas de correo reutilizables"
