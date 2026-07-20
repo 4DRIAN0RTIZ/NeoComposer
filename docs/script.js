@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 const ROADMAP_STATUS_CLASSES = {
 	done: 'tag-done',
 	planned: 'tag-planned',
+	working: 'tag-working',
 	idea: 'tag-idea',
 };
 
