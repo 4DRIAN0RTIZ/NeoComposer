@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Bug Fixes
+
+- Initialize docs page asynchronously (#4) ([e98a8ad](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e98a8ad23f790ab58ef2425a7e509b7691969792))
+
 ## [1.0.2] - 2026-07-18
 
 ### Bug Fixes
