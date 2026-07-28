@@ -2,11 +2,25 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [1.1.0] - 2026-07-28
 
 ### Bug Fixes
 
+- Style working roadmap status ([4fa03b8](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/4fa03b8835525d26bdfd347917b07a782229b7b2))
+- Make DOMContentLoaded handler async ([6d69804](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/6d69804e347ec829b474e87b3719aea240138d14))
 - Initialize docs page asynchronously (#4) ([e98a8ad](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e98a8ad23f790ab58ef2425a7e509b7691969792))
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([2a5e01d](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/2a5e01d2245f634899e4a428a3b139e31d68654a))
+
+### Documentation
+
+- Mark email templates as in progress ([224d638](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/224d63846608160ed3f08503404020f9faa535e6))
+
+### Features
+
+- Add reusable email templates ([4d1f2ea](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/4d1f2ea4bbccfd00570ab5d27cc023f07cd8fdb4))
 
 ## [1.0.2] - 2026-07-18
 
