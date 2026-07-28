@@ -5,6 +5,7 @@ import sys
 import argparse
 from .email_client import EmailClient
 from .contacts_manager import ContactsManager
+from .templates_manager import TemplatesManager
 
 from . import paths
 
@@ -49,6 +50,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--template",
+        "-t",
+        type=str,
+        help="Reusable email template name or path",
+    )
+
+    parser.add_argument(
+        "--template-var",
+        "-V",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="Template variable value (repeatable)",
+    )
+
+    parser.add_argument(
         "--contact-index",
         "-i",
         type=int,
@@ -64,6 +81,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--list-templates",
+        action="store_true",
+        help="List reusable email templates and exit",
+    )
+
+    parser.add_argument(
         "--open-contacts",
         "--contacts",
         action="store_true",
@@ -73,9 +96,38 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def parse_template_vars(raw_vars: list[str]) -> dict:
+    """Parses repeated KEY=VALUE template variables from the CLI."""
+    parsed = {}
+    for raw_var in raw_vars:
+        if "=" not in raw_var:
+            raise ValueError(f"Invalid template variable '{raw_var}', expected KEY=VALUE")
+        key, value = raw_var.split("=", 1)
+        key = key.strip()
+        if not key:
+            raise ValueError(f"Invalid template variable '{raw_var}', key cannot be empty")
+        parsed[key] = value
+    return parsed
+
+
+def format_templates() -> str:
+    """Formats the template list as readable console text."""
+    manager = TemplatesManager()
+    templates = manager.list_templates()
+    if not templates:
+        return f"No templates found in {manager.templates_dir}"
+
+    lines = ["Templates:"]
+    for index, template in enumerate(templates, 1):
+        subject = template.subject or "(No subject)"
+        variables = ", ".join(template.variables) or "none"
+        lines.append(f"{index}. {template.name} — {subject} — vars: {variables}")
+    return "\n".join(lines)
+
+
 def handle_utility_flags(args: argparse.Namespace) -> bool:
-    """Handles --open-contacts and --list-contacts. Returns True if a utility
-    was handled (the caller should stop execution in that case)."""
+    """Handles utility flags. Returns True if a utility was handled (the caller
+    should stop execution in that case)."""
     if args.open_contacts:
         try:
             script_path = paths.get_contacts_script_path()
@@ -98,11 +150,25 @@ def handle_utility_flags(args: argparse.Namespace) -> bool:
             sys.exit(1)
         return True
 
+    if args.list_templates:
+        try:
+            print(format_templates())
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            sys.exit(1)
+        return True
+
     return False
 
 
 def run(args: argparse.Namespace) -> None:
-    is_programmatic = any(
+    try:
+        template_vars = parse_template_vars(args.template_var)
+    except ValueError as e:
+        print(f"Error: {str(e)}")
+        sys.exit(1)
+
+    is_programmatic = not args.interactive and any(
         [
             args.recipient,
             args.subject,
@@ -110,6 +176,8 @@ def run(args: argparse.Namespace) -> None:
             args.body_file,
             args.attachments,
             args.contact_index,
+            args.template,
+            args.template_var,
         ]
     )
 
@@ -135,6 +203,8 @@ def run(args: argparse.Namespace) -> None:
                 body=body,
                 attachments=args.attachments,
                 contact_index=args.contact_index,
+                template=args.template,
+                template_vars=template_vars,
             )
             client.run()
         except Exception as e:
@@ -143,7 +213,7 @@ def run(args: argparse.Namespace) -> None:
 
     else:
         try:
-            client = EmailClient()
+            client = EmailClient(template=args.template, template_vars=template_vars)
             client.run_interactive()
         except KeyboardInterrupt:
             print("\n\nOperation cancelled by the user")

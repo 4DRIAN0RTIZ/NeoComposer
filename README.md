@@ -46,9 +46,47 @@ neocomposer -i 1 -s "Notificación" -b "Mensaje automático"
 
 # Listar contactos
 neocomposer -l
+
+# Usando una plantilla reutilizable
+neocomposer \
+  -r "admin@dominio.com" \
+  -t backup \
+  -V host=api-01 \
+  -V status=OK
 ```
 
 Ver `--help` para todas las opciones.
+
+---
+
+## Plantillas reutilizables
+
+Guarda tus plantillas en `~/.config/neocomposer/templates/` como `.txt`, `.html` o `.md`.
+
+```txt
+---
+subject: Backup de {{host}}
+---
+
+Hola,
+
+El backup de {{host}} terminó con estado: {{status}}.
+
+{{body}}
+```
+
+Uso:
+
+```bash
+neocomposer --list-templates
+neocomposer -r "equipo@dominio.com" -t backup -V host=api-01 -V status=OK
+```
+
+Notas:
+
+- `--subject` sobrescribe el `subject` definido en la plantilla.
+- `--body` o `--body-file` quedan disponibles como la variable `{{body}}`.
+- En modo interactivo puedes elegir una plantilla y completar sus variables antes de editar el cuerpo en Neovim.
 
 ---
 
@@ -58,6 +96,7 @@ Ver `--help` para todas las opciones.
 - 📎 **Yazi** para adjuntar archivos
 - 📋 **Lista de contactos** JSON
 - ✍️ **Firma HTML** personalizable
+- 🧩 **Plantillas reutilizables** con variables
 - 🔐 **SMTP + STARTTLS**
 - ⚡ **Modo programático** con CLI
 - 🚀 **Instalador multi-distro**

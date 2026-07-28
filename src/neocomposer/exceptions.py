@@ -16,3 +16,7 @@ class ComposeError(NeoComposerError):
 
 class SendError(NeoComposerError):
     """Error sending the message via SMTP"""
+
+
+class TemplateError(NeoComposerError):
+    """Error loading or rendering an email template"""

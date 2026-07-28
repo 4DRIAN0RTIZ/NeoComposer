@@ -1,16 +1,24 @@
 import os
 import tempfile
 import time
-from typing import List
+from typing import Dict, List, Optional
 
 from .contacts_manager import ContactsManager
 from .exceptions import ContactsError
 
 
-def _run_editor_and_capture(shell_cmd: str, mode: str = "w+", strip_result: bool = False) -> str:
+def _run_editor_and_capture(
+    shell_cmd: str,
+    mode: str = "w+",
+    strip_result: bool = False,
+    initial_content: str = "",
+) -> str:
     """Creates a temp file, opens it with the given command, and captures its content"""
     with tempfile.NamedTemporaryFile(mode=mode, delete=False, suffix=".txt") as f:
         temp_path = f.name
+        if initial_content:
+            f.write(initial_content)
+            f.flush()
 
     try:
         os.system(shell_cmd.format(path=temp_path))
@@ -27,9 +35,9 @@ def select_file_with_yazi() -> str:
     return _run_editor_and_capture("yazi --chooser-file={path}", mode="w", strip_result=True)
 
 
-def compose_body_with_neovim() -> str:
+def compose_body_with_neovim(initial_content: str = "") -> str:
     """Creates the email body using neovim"""
-    return _run_editor_and_capture("nvim {path}", mode="w+")
+    return _run_editor_and_capture("nvim {path}", mode="w+", initial_content=initial_content)
 
 
 def prompt_recipient(contacts: ContactsManager) -> str:
@@ -55,6 +63,44 @@ def prompt_recipient(contacts: ContactsManager) -> str:
                 print(f"Invalid selection: {e}")
 
     raise ContactsError("Invalid option.")
+
+
+def prompt_template(templates_manager) -> Optional[str]:
+    """Asks whether the user wants to start from a reusable template."""
+    use_template = input("Do you want to use a template? (y/n): ").strip().lower()
+    if use_template != "y":
+        return None
+
+    templates = templates_manager.list_templates()
+    if templates:
+        print("Templates:")
+        for index, template in enumerate(templates, 1):
+            subject = template.subject or "(No subject)"
+            variables = ", ".join(template.variables) or "none"
+            print(f"{index}. {template.name} — {subject} — vars: {variables}")
+    else:
+        print(f"No templates found in {templates_manager.templates_dir}")
+
+    selection = input("Template number/name/path (empty to skip): ").strip()
+    if not selection:
+        return None
+
+    if selection.isdigit() and templates:
+        index = int(selection)
+        if 1 <= index <= len(templates):
+            return templates[index - 1].path
+
+    return selection
+
+
+def prompt_template_vars(required_vars: List[str], existing_vars: Dict[str, str]) -> Dict[str, str]:
+    """Prompts values for template variables that are still missing."""
+    values = dict(existing_vars)
+    for variable in required_vars:
+        if variable in values:
+            continue
+        values[variable] = input(f"Value for {{{{ {variable} }}}}: ")
+    return values
 
 
 def prompt_attachments() -> List[str]:

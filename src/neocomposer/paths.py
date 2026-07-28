@@ -19,3 +19,8 @@ def get_contacts_path() -> str:
 def get_contacts_script_path() -> str:
     """Path to the contacts.sh script"""
     return os.path.join(get_config_dir(), "contacts.sh")
+
+
+def get_templates_dir() -> str:
+    """Path to NeoComposer's reusable email templates directory"""
+    return os.path.join(get_config_dir(), "templates")

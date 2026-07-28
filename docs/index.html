@@ -677,6 +677,14 @@
 						<td data-i18n="cli-flag-body-file">File with message body</td>
 					</tr>
 					<tr>
+						<td><code>--template, -t</code></td>
+						<td data-i18n="cli-flag-template">Reusable template name or path</td>
+					</tr>
+					<tr>
+						<td><code>--template-var, -V</code></td>
+						<td data-i18n="cli-flag-template-var">Template variable in KEY=VALUE format, repeatable</td>
+					</tr>
+					<tr>
 						<td><code>--attachments, -a</code></td>
 						<td data-i18n="cli-flag-attachments">Files to attach (space separated, multiple)</td>
 					</tr>
@@ -687,6 +695,10 @@
 					<tr>
 						<td><code>--list-contacts, -l</code></td>
 						<td data-i18n="cli-flag-list-contacts">List contacts and exit</td>
+					</tr>
+					<tr>
+						<td><code>--list-templates</code></td>
+						<td data-i18n="cli-flag-list-templates">List reusable templates and exit</td>
 					</tr>
 					<tr>
 						<td><code>--interactive, -I</code></td>
@@ -702,6 +714,79 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
+		<div style="margin-top: 2.5rem;">
+			<h3 data-i18n="cli-template-title" style="margin-bottom: 1rem;">Reusable templates</h3>
+			<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="cli-template-desc">Templates live in <code>~/.config/neocomposer/templates/</code> and can be plain text, HTML or Markdown. The repository includes examples in <code>examples/templates/</code>.</p>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">bash</span>
+					<span data-i18n="cli-template-copy-title">Copy repository examples</span>
+				</div>
+				<div class="code-body">
+					<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-str">~/.config/neocomposer/templates</span><br />
+					<span class="c-cmd">cp</span> <span class="c-str">examples/templates/notificacion-release.html</span> <span class="c-str">~/.config/neocomposer/templates/</span><br />
+					<span class="c-cmd">cp</span> <span class="c-str">examples/templates/recordatorio-reunion.md</span> <span class="c-str">~/.config/neocomposer/templates/</span>
+				</div>
+			</div>
+
+			<details class="code-details">
+				<summary><i class="fa-solid fa-envelope summary-icon" aria-hidden="true"></i> <span data-i18n="cli-template-html-title">HTML example: release notification</span></summary>
+				<div class="code-body" style="padding:1.25rem 1.5rem;">
+					<span class="c-comment"># examples/templates/notificacion-release.html</span><br />
+					---<br />
+					<span class="c-key">subject</span>: <span class="c-str">Release {{version}} de {{project}}</span><br />
+					---<br />
+					&lt;<span class="c-key">h2</span>&gt;Release {{version}} — {{project}}&lt;/<span class="c-key">h2</span>&gt;<br />
+					&lt;<span class="c-key">p</span>&gt;Hola {{name}},&lt;/<span class="c-key">p</span>&gt;<br />
+					&lt;<span class="c-key">p</span>&gt;Ambiente: {{environment}} · Estado: {{status}}&lt;/<span class="c-key">p</span>&gt;<br />
+					&lt;<span class="c-key">p</span>&gt;Cambios principales: {{changes}}&lt;/<span class="c-key">p</span>&gt;<br />
+					&lt;<span class="c-key">p</span>&gt;{{body}}&lt;/<span class="c-key">p</span>&gt;
+				</div>
+			</details>
+
+			<details class="code-details">
+				<summary><i class="fa-solid fa-file-lines summary-icon" aria-hidden="true"></i> <span data-i18n="cli-template-md-title">Markdown example: meeting reminder</span></summary>
+				<div class="code-body" style="padding:1.25rem 1.5rem;">
+					<span class="c-comment"># examples/templates/recordatorio-reunion.md</span><br />
+					---<br />
+					<span class="c-key">subject</span>: <span class="c-str">Recordatorio: {{meeting_title}}</span><br />
+					---<br />
+					Hola {{name}},<br />
+					<br />
+					Te recuerdo la reunión <span class="c-str">**{{meeting_title}}**</span>.<br />
+					<br />
+					- <span class="c-key">Fecha</span>: {{date}}<br />
+					- <span class="c-key">Hora</span>: {{time}}<br />
+					- <span class="c-key">Lugar / enlace</span>: {{location}}<br />
+					<br />
+					<span class="c-cmd">## Agenda</span><br />
+					{{agenda}}<br />
+					<br />
+					{{body}}
+				</div>
+			</details>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">bash</span>
+					<span data-i18n="cli-template-use-title">Use a template</span>
+				</div>
+				<div class="code-body">
+					<span class="c-cmd">neocomposer</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-r</span> <span class="c-str">"equipo@dominio.com"</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-t</span> <span class="c-str">notificacion-release</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">project=NeoComposer</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">version=v1.1.0</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">environment=production</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">status=OK</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">name=Equipo</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">changes="Plantillas reutilizables"</span> \<br />
+					&nbsp;&nbsp;<span class="c-flag">-V</span> <span class="c-str">body="Notas adicionales del release"</span>
+				</div>
+			</div>
 		</div>
 
 	</section>

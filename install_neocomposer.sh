@@ -91,6 +91,7 @@ done
 
 install_dir="$HOME/.config/neocomposer"
 mkdir -p "$install_dir"
+mkdir -p "$install_dir/templates"
 
 # Non-package files: user data / standalone tooling, not shipped inside the
 # neocomposer Python package, so they are installed as loose files.
