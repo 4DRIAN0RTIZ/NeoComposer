@@ -6,7 +6,12 @@ All notable changes to this project are documented here.
 
 ### Chore
 
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([bccc6c6](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/bccc6c653e5774407a834d1c9ebc09b6eb1475a8))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([05a6457](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/05a64579392dbc522e24be65a20ad140d33d5989))
+
+### Documentation
+
+- Add repository documentation guide ([b3b3d8e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b3b3d8e84a495b1552b9851fff8eb1ed0ab94dfd))
 
 ### Testing
 
