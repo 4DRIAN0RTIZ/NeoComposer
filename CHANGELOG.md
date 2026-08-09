@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([05a6457](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/05a64579392dbc522e24be65a20ad140d33d5989))
+
+### Testing
+
+- Add pytest coverage for core mail workflow ([0f16e12](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/0f16e127637fdd41437b1d6a6818871febb0b133))
+
 ## [1.1.0] - 2026-07-28
 
 ### Bug Fixes
