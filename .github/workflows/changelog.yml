@@ -2,7 +2,7 @@ name: Update changelog
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
     paths-ignore:
       - CHANGELOG.md
       - docs/changelog.json
