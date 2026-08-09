@@ -133,6 +133,16 @@ git commit -m "feat: descripción corta"
 git push origin feat/mi-feature
 ```
 
+### Hooks de git
+
+Este repo usa `.githooks/` para hooks compartidos. Actívalos una vez por clon:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+El hook `pre-push` actualiza `openwiki/` automáticamente al pushear a `develop` o `main` (requiere [openwiki CLI](https://github.com/langchain-ai/openwiki) instalado globalmente y `OPENAI_API_KEY` en el entorno; si falta alguno, se salta sin bloquear el push).
+
 ---
 
 ## Autor

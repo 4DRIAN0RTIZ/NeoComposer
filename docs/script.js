@@ -255,7 +255,21 @@ async function loadChangelog() {
 			return;
 		}
 
-		container.innerHTML = withCommits.map(release => {
+		const unreleased = withCommits.filter(r => !r.version);
+		const latestTagged = withCommits.find(r => r.version);
+		const visible = [...unreleased, ...(latestTagged ? [latestTagged] : [])];
+
+		const latestTimestamp = visible[0]?.commits?.[0]?.author?.timestamp;
+		const footerUpdated = document.getElementById('footer-updated');
+		if (footerUpdated && latestTimestamp) {
+			const lang = localStorage.getItem('neo-lang') || DEFAULT_LANG;
+			const t = translations[lang] || translations[DEFAULT_LANG] || {};
+			const label = t['changelog-updated'] || 'Last updated: ';
+			const date = new Date(latestTimestamp * 1000).toISOString().slice(0, 10);
+			footerUpdated.textContent = `${label}${date}`;
+		}
+
+		container.innerHTML = visible.map(release => {
 			const version = release.version || 'Unreleased';
 			const date = release.timestamp
 				? new Date(release.timestamp * 1000).toISOString().slice(0, 10)
