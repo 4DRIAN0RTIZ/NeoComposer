@@ -128,6 +128,7 @@
   "changelog-title": "Version history",
   "changelog-loading": "Loading changelog…",
   "changelog-full": "Full history: ",
+  "changelog-updated": "Last updated: ",
   "changelog-empty-msg": "No changelog entries yet — check back after the next release.",
   "footer-tagline": "Made from the terminal, for the terminal.",
   "term-select": "Select an option:",
