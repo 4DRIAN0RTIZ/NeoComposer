@@ -2,22 +2,21 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [1.1.1] - 2026-08-09
 
 ### CI
 
-- Automate releases from main ([6369b54](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/6369b5446ef4aabe390549e2daf88afd1710639f))
+- Automate releases from main ([e0fbe13](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e0fbe134fdaee70716477238c80bdc99c708d40f))
 
 ### Chore
 
-- Update CHANGELOG.md and docs/changelog.json [skip ci] ([d0c04e7](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d0c04e7ec5b4c73f34ebe7000f2d4b736205b3e9))
-- Update CHANGELOG.md and docs/changelog.json [skip ci] ([a956c0b](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/a956c0b722d049135e4ab1c0d2c1f7b4aa372160))
-- Update CHANGELOG.md and docs/changelog.json [skip ci] ([bccc6c6](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/bccc6c653e5774407a834d1c9ebc09b6eb1475a8))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([bd5455c](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/bd5455cd5e458582b3468b1e37b4e5ee1a9e0b3e))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([b2d6d23](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b2d6d23df8fbd6de4bfd7180718775fd735a1d4f))
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([05a6457](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/05a64579392dbc522e24be65a20ad140d33d5989))
 
 ### Documentation
 
-- Add repository documentation guide ([b3b3d8e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b3b3d8e84a495b1552b9851fff8eb1ed0ab94dfd))
+- Add repository documentation guide ([a99a5d7](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/a99a5d7ff12aec386d01ab1d68c8ad70ebe851be))
 
 ### Testing
 
@@ -59,10 +58,6 @@ All notable changes to this project are documented here.
 
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([104ac94](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/104ac94778a90438f69ce352183ae3e8f52e5267))
 
-### Documentation
-
-- Load localized content from json data files ([e891311](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e8913115e2c2e119a0b94064c2b1e3fc58ad906a))
-
 ## [1.0.0] - 2026-07-18
 
 ### Chore
@@ -75,6 +70,7 @@ All notable changes to this project are documented here.
 ### Documentation
 
 - Update index page ([324684e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/324684e9e1ad307cec58c7393f7a8fdacd2ef692))
+- Load localized content from json data files ([e891311](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e8913115e2c2e119a0b94064c2b1e3fc58ad906a))
 
 ### Refactor
 
