@@ -128,16 +128,155 @@ const ROADMAP_STATUS_CLASSES = {
 	idea: 'tag-idea',
 };
 
+const ROADMAP_REPO = '4DRIAN0RTIZ/NeoComposer';
+const ROADMAP_API = `https://api.github.com/repos/${ROADMAP_REPO}/issues?labels=roadmap&state=all&per_page=100`;
+const ROADMAP_CACHE_KEY = 'neo-roadmap-cache';
+const ROADMAP_CACHE_TTL = 30 * 60 * 1000; // 30 min
+
+const ROADMAP_STATUS_LABELS = [
+	['roadmap:working', 'working'],
+	['roadmap:planned', 'planned'],
+	['roadmap:idea', 'idea'],
+];
+const ROADMAP_STATUS_ORDER = ['working', 'planned', 'idea', 'done'];
+const ROADMAP_SECTION_TITLES = {
+	working: { en: 'In progress', es: 'En progreso' },
+	planned: { en: 'Planned', es: 'Planeado' },
+	idea: { en: 'Ideas', es: 'Ideas' },
+	done: { en: 'Done', es: 'Hecho' },
+};
+const ROADMAP_LABELS = {
+	done: { en: '✓ done', es: '✓ hecho' },
+	planned: { en: 'planned', es: 'planeado' },
+	idea: { en: 'idea', es: 'idea' },
+	working: { en: 'in progress', es: 'en progreso' },
+};
+const ROADMAP_DONE_WINDOW_DAYS = 60;
+
+function roadmapLabelNames(issue) {
+	return (issue.labels || []).map(l => (typeof l === 'string' ? l : l.name || ''));
+}
+
+function roadmapResolveStatus(issue) {
+	if ((issue.state || '').toLowerCase() === 'closed') return 'done';
+	const names = roadmapLabelNames(issue);
+	for (const [label, status] of ROADMAP_STATUS_LABELS) {
+		if (names.includes(label)) return status;
+	}
+	return 'planned';
+}
+
+function roadmapStripPrefix(title) {
+	return (title || '').replace(/^\[roadmap\]\s*/i, '').trim();
+}
+
+function roadmapWithinDoneWindow(issue) {
+	const when = Date.parse(issue.closed_at || issue.updated_at || '');
+	if (Number.isNaN(when)) return false;
+	return Date.now() - when <= ROADMAP_DONE_WINDOW_DAYS * 86400000;
+}
+
+function issuesToRoadmap(issues) {
+	const milestoneGroups = new Map();
+	const statusGroups = new Map();
+
+	for (const issue of issues) {
+		if (issue.pull_request) continue;
+		if (!roadmapLabelNames(issue).includes('roadmap')) continue;
+
+		const status = roadmapResolveStatus(issue);
+		const milestone = issue.milestone && issue.milestone.title;
+
+		if (status === 'done' && !milestone && !roadmapWithinDoneWindow(issue)) continue;
+
+		const item = {
+			status,
+			text: roadmapStripPrefix(issue.title),
+			ref: { label: `Issue #${issue.number}`, url: issue.html_url },
+			_updatedAt: issue.updated_at || '',
+		};
+
+		if (milestone) {
+			if (!milestoneGroups.has(milestone)) {
+				milestoneGroups.set(milestone, {
+					title: milestone,
+					due: (issue.milestone && issue.milestone.due_on) || '9999-12-31T00:00:00Z',
+					items: [],
+				});
+			}
+			milestoneGroups.get(milestone).items.push(item);
+		} else {
+			if (!statusGroups.has(status)) statusGroups.set(status, []);
+			statusGroups.get(status).push(item);
+		}
+	}
+
+	const sortItems = items => items.sort((a, b) =>
+		(ROADMAP_STATUS_ORDER.indexOf(a.status) - ROADMAP_STATUS_ORDER.indexOf(b.status)) ||
+		String(b._updatedAt).localeCompare(String(a._updatedAt)));
+	const strip = item => {
+		const { _updatedAt, ...rest } = item;
+		return rest;
+	};
+
+	const sections = [];
+	[...milestoneGroups.values()]
+		.sort((a, b) => a.due.localeCompare(b.due) || a.title.localeCompare(b.title))
+		.forEach(group => sections.push({ title: group.title, items: sortItems(group.items).map(strip) }));
+
+	for (const status of ROADMAP_STATUS_ORDER) {
+		const items = statusGroups.get(status);
+		if (!items || items.length === 0) continue;
+		sections.push({ title: ROADMAP_SECTION_TITLES[status], items: sortItems(items).map(strip) });
+	}
+
+	return { labels: ROADMAP_LABELS, sections };
+}
+
+function readRoadmapCache() {
+	try {
+		const raw = localStorage.getItem(ROADMAP_CACHE_KEY);
+		if (!raw) return null;
+		const cached = JSON.parse(raw);
+		if (Date.now() - cached.ts > ROADMAP_CACHE_TTL) return null;
+		return cached.data;
+	} catch (error) {
+		return null;
+	}
+}
+
+function writeRoadmapCache(data) {
+	try {
+		localStorage.setItem(ROADMAP_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+	} catch (error) {
+		/* storage unavailable or full — cache is best-effort */
+	}
+}
+
 let roadmapData = null;
 
 async function loadRoadmap() {
 	if (roadmapData) return roadmapData;
 
-	const res = await fetch('roadmap.json');
-	if (!res.ok) throw new Error(`roadmap.json returned ${res.status}`);
+	const cached = readRoadmapCache();
+	if (cached) {
+		roadmapData = cached;
+		return roadmapData;
+	}
 
-	roadmapData = await res.json();
-	return roadmapData;
+	try {
+		const res = await fetch(ROADMAP_API, { headers: { Accept: 'application/vnd.github+json' } });
+		if (!res.ok) throw new Error(`GitHub issues API returned ${res.status}`);
+		roadmapData = issuesToRoadmap(await res.json());
+		writeRoadmapCache(roadmapData);
+		return roadmapData;
+	} catch (error) {
+		console.warn('Roadmap: live fetch failed, falling back to roadmap.json', error);
+		const res = await fetch('roadmap.json');
+		if (!res.ok) throw new Error(`roadmap.json returned ${res.status}`);
+		roadmapData = await res.json();
+		return roadmapData;
+	}
 }
 
 function localizedValue(value, lang) {
