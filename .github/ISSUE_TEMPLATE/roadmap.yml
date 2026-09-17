@@ -1,6 +1,6 @@
 name: Item de roadmap
 description: Una entrada del roadmap publico (se muestra en la web).
-title: "[roadmap] <Nombre> | <Milestone>"
+title: "[roadmap] <Nombre>"
 labels: ["roadmap"]
 body:
   - type: markdown
@@ -12,7 +12,6 @@ body:
           (sin etiqueta = "planeado"). Cierra el issue cuando este hecho.
         - Version: asigna un **milestone** (`v2.0.0`, etc.) para agruparlo por version en la web.
         - Item activo ("ahora"): etiqueta `roadmap:now` o autoasignate el issue.
-        - Título: sigue el patrón `Nombre | Milestone`. El Milestone es una fase o epic real (ej. "Rendimiento del blog"), NO una versión.
         - Todo lo que escribas después de una línea `===` queda solo en el issue: nunca se manda a la página de roadmap.
   - type: textarea
     id: summary
