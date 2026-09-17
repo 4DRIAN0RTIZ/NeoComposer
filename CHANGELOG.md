@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.1.3] - 2026-09-17
+
+### Bug Fixes
+
+- Drop pipe-encoded milestone from issue title ([4512581](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/45125810f1c234eeb48c4c2b6e6ed58088854916))
+
 ## [1.1.2] - 2026-09-17
 
 ### Bug Fixes
