@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### CI
+
+- Rename develop branch to dev ([558bd4c](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/558bd4c754069fae1ff60b4e35b717d61645161a))
+- Automate releases from main ([6369b54](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/6369b5446ef4aabe390549e2daf88afd1710639f))
+
+### Chore
+
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([acb8dbc](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/acb8dbc50cb258c9ca258943cb74a67b35e345ea))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([d0c04e7](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d0c04e7ec5b4c73f34ebe7000f2d4b736205b3e9))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([a956c0b](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/a956c0b722d049135e4ab1c0d2c1f7b4aa372160))
+- Update CHANGELOG.md and docs/changelog.json [skip ci] ([bccc6c6](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/bccc6c653e5774407a834d1c9ebc09b6eb1475a8))
+
+### Documentation
+
+- Add repository documentation guide ([b3b3d8e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/b3b3d8e84a495b1552b9851fff8eb1ed0ab94dfd))
+
+### Merge
+
+- Sync main into develop for release PR #13 ([d0ca12a](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/d0ca12ab124d1373a732ddffcfc3d02646ce66f3))
+
 ## [1.1.1] - 2026-08-09
 
 ### CI
@@ -58,6 +80,10 @@ All notable changes to this project are documented here.
 
 - Update CHANGELOG.md and docs/changelog.json [skip ci] ([104ac94](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/104ac94778a90438f69ce352183ae3e8f52e5267))
 
+### Documentation
+
+- Load localized content from json data files ([e891311](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e8913115e2c2e119a0b94064c2b1e3fc58ad906a))
+
 ## [1.0.0] - 2026-07-18
 
 ### Chore
@@ -70,7 +96,6 @@ All notable changes to this project are documented here.
 ### Documentation
 
 - Update index page ([324684e](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/324684e9e1ad307cec58c7393f7a8fdacd2ef692))
-- Load localized content from json data files ([e891311](https://github.com/4DRIAN0RTIZ/NeoComposer/commit/e8913115e2c2e119a0b94064c2b1e3fc58ad906a))
 
 ### Refactor
 
