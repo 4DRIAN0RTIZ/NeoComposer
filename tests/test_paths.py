@@ -22,6 +22,10 @@ def test_get_contacts_path():
     assert paths.get_contacts_path() == os.path.join(paths.get_config_dir(), "contacts.json")
 
 
+def test_get_history_path():
+    assert paths.get_history_path() == os.path.join(paths.get_config_dir(), "history.json")
+
+
 def test_get_contacts_script_path():
     assert paths.get_contacts_script_path() == os.path.join(
         paths.get_config_dir(), "contacts.sh"

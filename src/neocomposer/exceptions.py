@@ -20,3 +20,7 @@ class SendError(NeoComposerError):
 
 class TemplateError(NeoComposerError):
     """Error loading or rendering an email template"""
+
+
+class HistoryError(NeoComposerError):
+    """Error loading or saving sent email history"""
