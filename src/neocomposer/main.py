@@ -6,6 +6,7 @@ import argparse
 from .email_client import EmailClient
 from .contacts_manager import ContactsManager
 from .templates_manager import TemplatesManager
+from .history_manager import HistoryManager
 
 from . import paths
 
@@ -87,6 +88,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--history",
+        action="store_true",
+        help="Show successfully sent email history and exit",
+    )
+
+    parser.add_argument(
         "--open-contacts",
         "--contacts",
         action="store_true",
@@ -125,9 +132,33 @@ def format_templates() -> str:
     return "\n".join(lines)
 
 
+def format_history() -> str:
+    """Formats sent email history as readable console text."""
+    sent_emails = HistoryManager(paths.get_history_path()).get_sent_emails()
+    if not sent_emails:
+        return "No sent email history found."
+
+    lines = ["Sent email history:"]
+    for index, email in enumerate(sent_emails, 1):
+        attachments = ", ".join(email["attachments"]) or "none"
+        lines.append(
+            f"{index}. {email['sent_at']} — {email['recipient']} — "
+            f"{email['subject']} — attachments: {attachments}"
+        )
+    return "\n".join(lines)
+
+
 def handle_utility_flags(args: argparse.Namespace) -> bool:
     """Handles utility flags. Returns True if a utility was handled (the caller
     should stop execution in that case)."""
+    if args.history:
+        try:
+            print(format_history())
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            sys.exit(1)
+        return True
+
     if args.open_contacts:
         try:
             script_path = paths.get_contacts_script_path()

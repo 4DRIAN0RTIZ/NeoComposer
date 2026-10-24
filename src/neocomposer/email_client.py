@@ -6,6 +6,7 @@ from .contacts_manager import ContactsManager
 from .mail_composer import MailComposer
 from .mail_sender import MailSender
 from .templates_manager import TemplatesManager
+from .history_manager import HistoryManager
 
 from . import interactive_io
 from . import paths
@@ -37,9 +38,11 @@ class EmailClient:
         """
         self.config_path = paths.get_env_path()
         self.contacts_path = paths.get_contacts_path()
+        self.history_path = paths.get_history_path()
         self._config_manager = ConfigManager(self.config_path)
         self._composer = MailComposer()
         self._templates_manager = TemplatesManager()
+        self._history_manager = HistoryManager(self.history_path)
 
         # Programmatic mode
         self.recipient = recipient
@@ -98,9 +101,11 @@ class EmailClient:
             body_html=body.replace("\n", "<br>") if body else "",
         )
 
+        attached_files = []
         for file_path in attachments or []:
             if os.path.exists(file_path):
                 self._composer.add_attachment(message, file_path)
+                attached_files.append(file_path)
             else:
                 print(f"Warning: File not found {file_path}")
 
@@ -114,7 +119,10 @@ class EmailClient:
         if before_send:
             before_send(sender)
 
-        return sender.send(message, recipient)
+        success = sender.send(message, recipient)
+        if success:
+            self._history_manager.record_sent_email(recipient, subject, attached_files)
+        return success
 
     def send_email(
         self,

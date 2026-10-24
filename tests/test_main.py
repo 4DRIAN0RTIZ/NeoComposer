@@ -19,6 +19,7 @@ def make_args(**overrides):
         contact_index=None,
         list_contacts=False,
         list_templates=False,
+        history=False,
         open_contacts=False,
     )
     defaults.update(overrides)
@@ -123,9 +124,53 @@ class TestFormatTemplates:
         assert result == "Templates:\n1. welcome — (No subject) — vars: none"
 
 
+class TestFormatHistory:
+    @patch("neocomposer.main.HistoryManager")
+    @patch("neocomposer.main.paths.get_history_path", return_value="/history.json")
+    def test_no_history(self, mock_path, mock_manager_cls):
+        mock_manager_cls.return_value.get_sent_emails.return_value = []
+
+        assert main_module.format_history() == "No sent email history found."
+        mock_manager_cls.assert_called_once_with("/history.json")
+
+    @patch("neocomposer.main.HistoryManager")
+    def test_formats_history(self, mock_manager_cls):
+        mock_manager_cls.return_value.get_sent_emails.return_value = [
+            {
+                "sent_at": "2026-09-04T12:00:00+00:00",
+                "recipient": "you@example.com",
+                "subject": "Hi",
+                "attachments": ["report.pdf"],
+            }
+        ]
+
+        assert main_module.format_history() == (
+            "Sent email history:\n"
+            "1. 2026-09-04T12:00:00+00:00 — you@example.com — Hi — "
+            "attachments: report.pdf"
+        )
+
+
 class TestHandleUtilityFlags:
     def test_no_flags_returns_false(self):
         assert main_module.handle_utility_flags(make_args()) is False
+
+    @patch("neocomposer.main.format_history")
+    def test_history_prints_and_returns_true(self, mock_format, capsys):
+        mock_format.return_value = "No sent email history found."
+
+        result = main_module.handle_utility_flags(make_args(history=True))
+
+        assert result is True
+        assert "No sent email history found." in capsys.readouterr().out
+
+    @patch("neocomposer.main.format_history")
+    def test_history_error_exits(self, mock_format):
+        mock_format.side_effect = Exception("history broken")
+
+        with pytest.raises(SystemExit) as exc_info:
+            main_module.handle_utility_flags(make_args(history=True))
+        assert exc_info.value.code == 1
 
     @patch("neocomposer.main.paths.get_contacts_script_path")
     @patch("neocomposer.main.os.path.exists")

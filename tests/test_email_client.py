@@ -9,6 +9,8 @@ from neocomposer.exceptions import NeoComposerError
 @pytest.fixture(autouse=True)
 def mocked_collaborators():
     with patch("neocomposer.email_client.paths") as mock_paths, patch(
+        "neocomposer.email_client.HistoryManager"
+    ) as mock_history_manager_cls, patch(
         "neocomposer.email_client.ConfigManager"
     ) as mock_config_manager_cls, patch(
         "neocomposer.email_client.MailComposer"
@@ -23,8 +25,10 @@ def mocked_collaborators():
     ) as mock_io:
         mock_paths.get_env_path.return_value = "/fake/.env"
         mock_paths.get_contacts_path.return_value = "/fake/contacts.json"
+        mock_paths.get_history_path.return_value = "/fake/history.json"
         yield {
             "paths": mock_paths,
+            "history_manager_cls": mock_history_manager_cls,
             "config_manager_cls": mock_config_manager_cls,
             "composer_cls": mock_composer_cls,
             "templates_cls": mock_templates_cls,
@@ -116,6 +120,9 @@ class TestComposeAndSend:
             recipient="you@example.com",
             body_html="Body<br>Line2",
         )
+        client._history_manager.record_sent_email.assert_called_once_with(
+            "you@example.com", "Hi", []
+        )
 
     def test_adds_existing_attachments(self, mocked_collaborators, tmp_path):
         client = EmailClient()
@@ -136,6 +143,9 @@ class TestComposeAndSend:
         )
 
         client._composer.add_attachment.assert_called_once()
+        client._history_manager.record_sent_email.assert_called_once_with(
+            "you@example.com", "Hi", [str(attachment)]
+        )
 
     def test_warns_on_missing_attachment(self, mocked_collaborators, capsys):
         client = EmailClient()
@@ -155,6 +165,23 @@ class TestComposeAndSend:
 
         client._composer.add_attachment.assert_not_called()
         assert "Warning: File not found /missing.txt" in capsys.readouterr().out
+
+    def test_does_not_record_failed_send(self, mocked_collaborators):
+        client = EmailClient()
+        mocked_collaborators["sender_cls"].return_value.send.return_value = False
+
+        config = {
+            "sender_name": "Me",
+            "sender_email": "me@example.com",
+            "smtp_server": "smtp.example.com",
+            "smtp_port": 587,
+            "sender_password": "secret",
+        }
+
+        result = client._compose_and_send(config, "you@example.com", "Hi", "Body")
+
+        assert result is False
+        client._history_manager.record_sent_email.assert_not_called()
 
     def test_calls_before_send_hook(self, mocked_collaborators):
         client = EmailClient()

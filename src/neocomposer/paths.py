@@ -16,6 +16,11 @@ def get_contacts_path() -> str:
     return os.path.join(get_config_dir(), "contacts.json")
 
 
+def get_history_path() -> str:
+    """Path to the sent email history file"""
+    return os.path.join(get_config_dir(), "history.json")
+
+
 def get_contacts_script_path() -> str:
     """Path to the contacts.sh script"""
     return os.path.join(get_config_dir(), "contacts.sh")
